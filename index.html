@@ -18,7 +18,6 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            padding-bottom: 100px;
         }
         
         .container {
@@ -30,13 +29,11 @@
             text-align: center;
             color: white;
             margin-bottom: 30px;
-            padding-top: 20px;
         }
         
         .header h1 {
             font-size: 2.5em;
             margin-bottom: 10px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
         
         .card {
@@ -47,112 +44,77 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
         
-        .input-group {
+        .section-title {
+            font-size: 1.3em;
             margin-bottom: 15px;
-        }
-        
-        .input-group label {
-            display: block;
-            margin-bottom: 8px;
             color: #333;
-            font-weight: 600;
-            font-size: 0.95em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
         
-        .input-group input,
-        .input-group select,
-        .input-group textarea {
-            width: 100%;
-            padding: 12px 15px;
+        .person-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .person-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f5f5f5;
+            border-radius: 10px;
+        }
+        
+        .person-name {
+            font-weight: 500;
+            font-size: 1.1em;
+        }
+        
+        .delete-btn {
+            background: #ff4757;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        input {
+            flex: 1;
+            padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
-            font-size: 16px;
-            transition: border-color 0.3s;
+            font-size: 1em;
         }
         
-        .input-group input:focus,
-        .input-group select:focus,
-        .input-group textarea:focus {
+        input:focus {
             outline: none;
             border-color: #667eea;
         }
         
-        .input-group textarea {
-            resize: vertical;
-            min-height: 60px;
-            font-family: inherit;
-        }
-        
         .btn {
-            width: 100%;
-            padding: 15px;
+            background: #667eea;
+            color: white;
             border: none;
+            padding: 12px 20px;
             border-radius: 10px;
-            font-size: 1.1em;
-            font-weight: 600;
             cursor: pointer;
-            transition: all 0.3s;
+            font-size: 1em;
+            font-weight: 600;
         }
         
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-        }
-        
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-        
-        .btn-danger {
-            background: #ff4757;
-            color: white;
-            margin-top: 10px;
-        }
-        
-        .summary-grid {
-            display: grid;
-            gap: 15px;
-        }
-        
-        .summary-item {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
-            border-radius: 15px;
-            color: white;
-            text-align: center;
-        }
-        
-        .summary-label {
-            font-size: 0.9em;
-            opacity: 0.9;
-            margin-bottom: 5px;
-        }
-        
-        .summary-value {
-            font-size: 2em;
-            font-weight: bold;
-        }
-        
-        .settlement {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-        
-        .settlement-text {
-            font-size: 1.1em;
-            color: #333;
-            line-height: 1.6;
-        }
-        
-        .settlement-amount {
-            color: #667eea;
-            font-weight: bold;
-        }
-        
-        .expense-list {
-            margin-top: 20px;
+        .btn:active {
+            transform: scale(0.95);
         }
         
         .expense-item {
@@ -165,7 +127,7 @@
         .expense-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 8px;
         }
         
@@ -175,91 +137,38 @@
             color: #667eea;
         }
         
-        .expense-who {
+        .expense-payer {
             font-size: 0.9em;
             color: #666;
-            margin-top: 3px;
         }
         
-        .expense-desc {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
+        .settlement-item {
+            padding: 15px;
+            background: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            border-radius: 8px;
+            margin-bottom: 10px;
         }
         
-        .expense-delete {
-            background: #ff4757;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85em;
-            cursor: pointer;
+        .settlement-amount {
+            font-weight: bold;
+            color: #2e7d32;
+            font-size: 1.2em;
         }
         
-        .person-manager {
-            margin-bottom: 20px;
-        }
-        
-        .person-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .person-tag {
-            background: #667eea;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.9em;
-        }
-        
-        .person-tag button {
-            background: rgba(255,255,255,0.3);
-            border: none;
-            color: white;
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 0.8em;
-            line-height: 1;
-        }
-        
-        .add-person-form {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .add-person-form input {
-            flex: 1;
-        }
-        
-        .add-person-form button {
-            padding: 12px 20px;
-            background: #667eea;
-            color: white;
-            border: none;
+        select {
+            padding: 12px;
+            border: 2px solid #e0e0e0;
             border-radius: 10px;
-            cursor: pointer;
-            font-weight: 600;
+            font-size: 1em;
+            width: 100%;
+            margin-bottom: 10px;
         }
         
         .empty-state {
             text-align: center;
-            padding: 40px 20px;
             color: #999;
-        }
-        
-        .empty-state-icon {
-            font-size: 3em;
-            margin-bottom: 10px;
+            padding: 20px;
         }
     </style>
 </head>
@@ -270,212 +179,123 @@
             <p>Del udgifter nemt og fair</p>
         </div>
 
-        <!-- Person Manager -->
-        <div class="card person-manager">
-            <h2 style="margin-bottom: 15px;">👥 Deltagere</h2>
+        <!-- Personer -->
+        <div class="card">
+            <div class="section-title">👥 Personer</div>
             <div class="person-list" id="personList"></div>
-            <div class="add-person-form">
-                <input type="text" id="newPersonName" placeholder="Indtast navn..." maxlength="20">
-                <button onclick="addPerson()">Tilføj</button>
+            <div class="input-group">
+                <input type="text" id="newPersonName" placeholder="Indtast navn..." />
+                <button class="btn" onclick="addPerson()">Tilføj</button>
             </div>
         </div>
 
-        <!-- Add Expense -->
+        <!-- Tilføj udgift -->
         <div class="card">
-            <h2 style="margin-bottom: 20px;">➕ Tilføj Udgift</h2>
-            
-            <div class="input-group">
-                <label>💵 Beløb (kr)</label>
-                <input type="number" id="amount" placeholder="Indtast beløb" step="0.01" min="0">
-            </div>
-            
-            <div class="input-group">
-                <label>👤 Hvem betalte?</label>
-                <select id="payer">
-                    <option value="">Vælg person...</option>
-                </select>
-            </div>
-            
-            <div class="input-group">
-                <label>📝 Beskrivelse (valgfri)</label>
-                <textarea id="description" placeholder="Hvad blev købt?"></textarea>
-            </div>
-            
-            <button class="btn btn-primary" onclick="addExpense()">Tilføj Udgift</button>
+            <div class="section-title">➕ Tilføj Udgift</div>
+            <select id="payerSelect">
+                <option value="">Vælg hvem der betalte...</option>
+            </select>
+            <input type="number" id="expenseAmount" placeholder="Beløb (kr)" step="0.01" />
+            <input type="text" id="expenseDescription" placeholder="Beskrivelse (valgfrit)" />
+            <button class="btn" onclick="addExpense()" style="width: 100%; margin-top: 10px;">Tilføj Udgift</button>
         </div>
 
-        <!-- Summary -->
+        <!-- Udgifter -->
         <div class="card">
-            <h2 style="margin-bottom: 20px;">📊 Oversigt</h2>
-            <div class="summary-grid">
-                <div class="summary-item">
-                    <div class="summary-label">Total udgifter</div>
-                    <div class="summary-value" id="totalExpenses">0 kr</div>
-                </div>
-                <div class="summary-item">
-                    <div class="summary-label">Per person</div>
-                    <div class="summary-value" id="perPerson">0 kr</div>
-                </div>
-            </div>
-            
-            <div id="settlements" style="margin-top: 20px;"></div>
-        </div>
-
-        <!-- Expense List -->
-        <div class="card">
-            <h2 style="margin-bottom: 20px;">📋 Udgifter</h2>
+            <div class="section-title">📝 Udgifter</div>
             <div id="expenseList"></div>
-            <button class="btn btn-danger" onclick="clearAll()" id="clearBtn" style="display: none;">Slet Alt</button>
+        </div>
+
+        <!-- Afregning -->
+        <div class="card">
+            <div class="section-title">💸 Afregning</div>
+            <div id="settlementList"></div>
         </div>
     </div>
 
     <script>
-        // Data storage
-        let persons = [];
+        let people = [];
         let expenses = [];
 
-        // Load data from localStorage
+        // Load data fra localStorage
         function loadData() {
-            const saved = localStorage.getItem('gaeldDelerData');
-            if (saved) {
-                const data = JSON.parse(saved);
-                persons = data.persons || [];
-                expenses = data.expenses || [];
-            }
-            updateDisplay();
+            const savedPeople = localStorage.getItem('people');
+            const savedExpenses = localStorage.getItem('expenses');
+            
+            if (savedPeople) people = JSON.parse(savedPeople);
+            if (savedExpenses) expenses = JSON.parse(savedExpenses);
+            
+            updateUI();
         }
 
-        // Save data to localStorage
+        // Gem data til localStorage
         function saveData() {
-            localStorage.setItem('gaeldDelerData', JSON.stringify({ persons, expenses }));
+            localStorage.setItem('people', JSON.stringify(people));
+            localStorage.setItem('expenses', JSON.stringify(expenses));
         }
 
-        // Add person
+        // Tilføj person
         function addPerson() {
-            const input = document.getElementById('newPersonName');
-            const name = input.value.trim();
+            const nameInput = document.getElementById('newPersonName');
+            const name = nameInput.value.trim();
             
-            if (!name) {
-                alert('Indtast et navn');
-                return;
-            }
-            
-            if (persons.includes(name)) {
-                alert('Denne person findes allerede');
-                return;
-            }
-            
-            persons.push(name);
-            input.value = '';
-            saveData();
-            updateDisplay();
-        }
-
-        // Remove person
-        function removePerson(name) {
-            const hasExpenses = expenses.some(exp => exp.payer === name);
-            if (hasExpenses) {
-                alert('Kan ikke slette - denne person har udgifter registreret');
-                return;
-            }
-            
-            if (confirm(`Slet ${name}?`)) {
-                persons = persons.filter(p => p !== name);
+            if (name && !people.includes(name)) {
+                people.push(name);
+                nameInput.value = '';
                 saveData();
-                updateDisplay();
+                updateUI();
             }
         }
 
-        // Update person list display
-        function updatePersonList() {
-            const listDiv = document.getElementById('personList');
-            const payerSelect = document.getElementById('payer');
-            
-            if (persons.length === 0) {
-                listDiv.innerHTML = '<div class="empty-state"><div class="empty-state-icon">👆</div><p>Tilføj deltagere ovenfor</p></div>';
-                payerSelect.innerHTML = '<option value="">Tilføj personer først...</option>';
-            } else {
-                listDiv.innerHTML = persons.map(person => `
-                    <div class="person-tag">
-                        ${person}
-                        <button onclick="removePerson('${person}')">×</button>
-                    </div>
-                `).join('');
-                
-                payerSelect.innerHTML = '<option value="">Vælg person...</option>' + 
-                    persons.map(person => `<option value="${person}">${person}</option>`).join('');
-            }
-        }
-
-        // Add expense
-        function addExpense() {
-            const amount = parseFloat(document.getElementById('amount').value);
-            const payer = document.getElementById('payer').value;
-            const description = document.getElementById('description').value.trim();
-            
-            if (!amount || amount <= 0) {
-                alert('Indtast et gyldigt beløb');
+        // Slet person
+        function deletePerson(name) {
+            const hasExpenses = expenses.some(e => e.payer === name);
+            if (hasExpenses) {
+                alert('Kan ikke slette - personen har udgifter!');
                 return;
             }
-            
-            if (!payer) {
-                alert('Vælg hvem der betalte');
-                return;
-            }
-            
-            const expense = {
-                id: Date.now(),
-                amount,
-                payer,
-                description,
-                date: new Date().toLocaleDateString('da-DK')
-            };
-            
-            expenses.push(expense);
-            
-            // Clear form
-            document.getElementById('amount').value = '';
-            document.getElementById('payer').value = '';
-            document.getElementById('description').value = '';
-            
+            people = people.filter(p => p !== name);
             saveData();
-            updateDisplay();
+            updateUI();
         }
 
-        // Calculate settlements
+        // Tilføj udgift
+        function addExpense() {
+            const payer = document.getElementById('payerSelect').value;
+            const amount = parseFloat(document.getElementById('expenseAmount').value);
+            const description = document.getElementById('expenseDescription').value.trim();
+            
+            if (payer && amount > 0) {
+                expenses.push({ payer, amount, description });
+                document.getElementById('expenseAmount').value = '';
+                document.getElementById('expenseDescription').value = '';
+                saveData();
+                updateUI();
+            }
+        }
+
+        // Beregn afregning
         function calculateSettlements() {
-            if (persons.length === 0 || expenses.length === 0) return [];
+            if (people.length === 0) return [];
             
-            const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
-            const perPerson = total / persons.length;
+            const total = expenses.reduce((sum, e) => sum + e.amount, 0);
+            const perPerson = total / people.length;
             
-            // Calculate balances
             const balances = {};
-            persons.forEach(person => {
-                balances[person] = -perPerson; // Everyone owes their share
-            });
+            people.forEach(p => balances[p] = -perPerson);
+            expenses.forEach(e => balances[e.payer] += e.amount);
             
-            expenses.forEach(exp => {
-                balances[exp.payer] += exp.amount; // Payer gets credit
-            });
-            
-            // Create settlements
             const settlements = [];
-            const debtors = Object.entries(balances).filter(([_, bal]) => bal < -0.01).sort((a, b) => a[1] - b[1]);
-            const creditors = Object.entries(balances).filter(([_, bal]) => bal > 0.01).sort((a, b) => b[1] - a[1]);
+            const debtors = Object.entries(balances).filter(([_, b]) => b < -0.01).sort((a, b) => a[1] - b[1]);
+            const creditors = Object.entries(balances).filter(([_, b]) => b > 0.01).sort((a, b) => b[1] - a[1]);
             
             let i = 0, j = 0;
             while (i < debtors.length && j < creditors.length) {
-                const [debtor, debtAmount] = debtors[i];
-                const [creditor, creditAmount] = creditors[j];
+                const [debtor, debt] = debtors[i];
+                const [creditor, credit] = creditors[j];
+                const amount = Math.min(-debt, credit);
                 
-                const amount = Math.min(-debtAmount, creditAmount);
-                
-                settlements.push({
-                    from: debtor,
-                    to: creditor,
-                    amount: amount
-                });
+                settlements.push({ from: debtor, to: creditor, amount });
                 
                 debtors[i][1] += amount;
                 creditors[j][1] -= amount;
@@ -487,91 +307,74 @@
             return settlements;
         }
 
-        // Update all displays
-        function updateDisplay() {
-            updatePersonList();
-            
-            const total = expenses.reduce((sum, exp) => sum + exp.amount, 0);
-            const perPerson = persons.length > 0 ? total / persons.length : 0;
-            
-            document.getElementById('totalExpenses').textContent = total.toFixed(2) + ' kr';
-            document.getElementById('perPerson').textContent = perPerson.toFixed(2) + ' kr';
-            
-            // Settlements
-            const settlements = calculateSettlements();
-            const settlementsDiv = document.getElementById('settlements');
-            
-            if (settlements.length === 0) {
-                settlementsDiv.innerHTML = '';
-            } else {
-                settlementsDiv.innerHTML = '<h3 style="margin-bottom: 15px;">💸 Afregninger</h3>' +
-                    settlements.map(s => `
-                        <div class="settlement">
-                            <div class="settlement-text">
-                                <strong>${s.from}</strong> skylder 
-                                <strong>${s.to}</strong>: 
-                                <span class="settlement-amount">${s.amount.toFixed(2)} kr</span>
-                            </div>
-                        </div>
-                    `).join('');
-            }
-            
-            // Expense list
-            const listDiv = document.getElementById('expenseList');
-            const clearBtn = document.getElementById('clearBtn');
-            
-            if (expenses.length === 0) {
-                listDiv.innerHTML = `
-                    <div class="empty-state">
-                        <div class="empty-state-icon">📝</div>
-                        <p>Ingen udgifter endnu</p>
+        // Opdater UI
+        function updateUI() {
+            // Personer
+            const personList = document.getElementById('personList');
+            personList.innerHTML = people.length === 0 
+                ? '<div class="empty-state">Ingen personer endnu</div>'
+                : people.map(p => `
+                    <div class="person-item">
+                        <span class="person-name">${p}</span>
+                        <button class="delete-btn" onclick="deletePerson('${p}')">Slet</button>
                     </div>
-                `;
-                clearBtn.style.display = 'none';
-            } else {
-                listDiv.innerHTML = expenses.map(exp => `
+                `).join('');
+            
+            // Payer dropdown
+            const payerSelect = document.getElementById('payerSelect');
+            payerSelect.innerHTML = '<option value="">Vælg hvem der betalte...</option>' +
+                people.map(p => `<option value="${p}">${p}</option>`).join('');
+            
+            // Udgifter
+            const expenseList = document.getElementById('expenseList');
+            expenseList.innerHTML = expenses.length === 0
+                ? '<div class="empty-state">Ingen udgifter endnu</div>'
+                : expenses.map((e, i) => `
                     <div class="expense-item">
                         <div class="expense-header">
-                            <div>
-                                <div class="expense-amount">${exp.amount.toFixed(2)} kr</div>
-                                <div class="expense-who">Betalt af: ${exp.payer}</div>
-                            </div>
-                            <button class="expense-delete" onclick="deleteExpense(${exp.id})">Slet</button>
+                            <span class="expense-amount">${e.amount.toFixed(2)} kr</span>
+                            <button class="delete-btn" onclick="deleteExpense(${i})">Slet</button>
                         </div>
-                        ${exp.description ? `<div class="expense-desc">${exp.description}</div>` : ''}
-                        <div class="expense-desc">${exp.date}</div>
+                        <div class="expense-payer">Betalt af: ${e.payer}</div>
+                        ${e.description ? `<div style="color: #666; font-size: 0.9em; margin-top: 5px;">${e.description}</div>` : ''}
                     </div>
-                `).reverse().join('');
-                clearBtn.style.display = 'block';
-            }
+                `).join('');
+            
+            // Afregning
+            const settlements = calculateSettlements();
+            const settlementList = document.getElementById('settlementList');
+            settlementList.innerHTML = settlements.length === 0
+                ? '<div class="empty-state">Ingen afregninger endnu</div>'
+                : settlements.map(s => `
+                    <div class="settlement-item">
+                        <strong>${s.from}</strong> skal betale 
+                        <span class="settlement-amount">${s.amount.toFixed(2)} kr</span>
+                        til <strong>${s.to}</strong>
+                    </div>
+                `).join('');
         }
 
-        // Delete expense
-        function deleteExpense(id) {
-            if (confirm('Slet denne udgift?')) {
-                expenses = expenses.filter(exp => exp.id !== id);
-                saveData();
-                updateDisplay();
-            }
+        // Slet udgift
+        function deleteExpense(index) {
+            expenses.splice(index, 1);
+            saveData();
+            updateUI();
         }
 
-        // Clear all
-        function clearAll() {
-            if (confirm('Slet ALLE udgifter? (Deltagere beholdes)')) {
-                expenses = [];
-                saveData();
-                updateDisplay();
-            }
-        }
-
-        // Allow Enter key to add person
-        document.getElementById('newPersonName').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addPerson();
-            }
+        // Enter key support
+        document.getElementById('newPersonName').addEventListener('keypress', e => {
+            if (e.key === 'Enter') addPerson();
+        });
+        
+        document.getElementById('expenseAmount').addEventListener('keypress', e => {
+            if (e.key === 'Enter') addExpense();
+        });
+        
+        document.getElementById('expenseDescription').addEventListener('keypress', e => {
+            if (e.key === 'Enter') addExpense();
         });
 
-        // Load data on page load
+        // Load data når siden starter
         loadData();
     </script>
 </body>
