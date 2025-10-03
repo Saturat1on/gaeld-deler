@@ -53,7 +53,7 @@
         .input-group {
             display: flex;
             gap: 10px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         
         input {
@@ -78,6 +78,7 @@
             cursor: pointer;
             font-size: 1em;
             font-weight: 600;
+            width: 100%;
         }
         
         .btn:active {
@@ -221,11 +222,9 @@
         <!-- Tilføj person -->
         <div class="card">
             <div class="section-title">➕ Tilføj Person</div>
-            <div class="input-group">
-                <input type="text" id="newPersonName" placeholder="Navn..." />
-                <input type="tel" id="newPersonPhone" placeholder="Tlf (valgfrit)" />
-                <button class="btn" onclick="addPerson()">Tilføj</button>
-            </div>
+            <input type="text" id="newPersonName" placeholder="Navn..." style="width: 100%; margin-bottom: 10px;" />
+            <input type="tel" id="newPersonPhone" placeholder="Tlf (valgfrit)" style="width: 100%; margin-bottom: 15px;" />
+            <button class="btn" onclick="addPerson()">Tilføj</button>
         </div>
 
         <!-- Personer med gæld -->
@@ -415,6 +414,12 @@
 
         // Enter key support
         document.getElementById('newPersonName').addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                document.getElementById('newPersonPhone').focus();
+            }
+        });
+        
+        document.getElementById('newPersonPhone').addEventListener('keypress', e => {
             if (e.key === 'Enter') addPerson();
         });
         
