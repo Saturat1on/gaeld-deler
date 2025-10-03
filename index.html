@@ -99,6 +99,10 @@
             margin-bottom: 15px;
         }
         
+        .person-info {
+            flex: 1;
+        }
+        
         .person-name {
             font-size: 1.3em;
             font-weight: 600;
@@ -109,6 +113,18 @@
             font-size: 0.9em;
             color: #666;
             margin-top: 5px;
+        }
+        
+        .edit-icon {
+            background: #f39c12;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2em;
+            margin-left: 10px;
         }
         
         .debt-amount {
@@ -242,9 +258,21 @@
         </div>
     </div>
 
+    <!-- Modal til redigering -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-title">✏️ Rediger Person</div>
+            <input type="text" id="editName" placeholder="Navn...">
+            <input type="tel" id="editPhone" placeholder="Telefonnummer...">
+            <button class="btn" onclick="confirmEdit()" style="margin-top: 10px;">✓ Gem</button>
+            <button class="btn" onclick="closeEditModal()" style="margin-top: 10px; background: #95a5a6;">✕ Annuller</button>
+        </div>
+    </div>
+
     <script>
         let people = [];
         let currentAction = null;
+        let editingPersonIndex = null;
 
         function loadData() {
             const saved = localStorage.getItem('debtTracker');
@@ -279,6 +307,40 @@
             
             saveData();
             renderPeople();
+        }
+
+        function openEditModal(personIndex) {
+            editingPersonIndex = personIndex;
+            const person = people[personIndex];
+            
+            document.getElementById('editName').value = person.name;
+            document.getElementById('editPhone').value = person.phone;
+            document.getElementById('editModal').classList.add('active');
+            document.getElementById('editName').focus();
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').classList.remove('active');
+            document.getElementById('editName').value = '';
+            document.getElementById('editPhone').value = '';
+            editingPersonIndex = null;
+        }
+
+        function confirmEdit() {
+            const name = document.getElementById('editName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            
+            if (!name) {
+                alert('Navn må ikke være tomt');
+                return;
+            }
+            
+            people[editingPersonIndex].name = name;
+            people[editingPersonIndex].phone = phone;
+            
+            saveData();
+            renderPeople();
+            closeEditModal();
         }
 
         function openAmountModal(personIndex, type) {
@@ -359,10 +421,11 @@
             container.innerHTML = people.map((person, index) => `
                 <div class="person-card">
                     <div class="person-header">
-                        <div>
+                        <div class="person-info">
                             <div class="person-name">${person.name}</div>
                             ${person.phone ? `<div class="person-phone">📱 ${person.phone}</div>` : ''}
                         </div>
+                        <button class="edit-icon" onclick="openEditModal(${index})" title="Rediger">✏️</button>
                         <div class="debt-amount ${person.debt === 0 ? 'zero' : ''}">
                             ${person.debt.toFixed(2)} kr
                         </div>
@@ -410,9 +473,23 @@
             if (e.key === 'Enter') confirmAmount();
         });
 
-        // Luk modal ved klik udenfor
+        document.getElementById('editName').addEventListener('keypress', e => {
+            if (e.key === 'Enter') {
+                document.getElementById('editPhone').focus();
+            }
+        });
+
+        document.getElementById('editPhone').addEventListener('keypress', e => {
+            if (e.key === 'Enter') confirmEdit();
+        });
+
+        // Luk modals ved klik udenfor
         document.getElementById('amountModal').addEventListener('click', e => {
             if (e.target.id === 'amountModal') closeModal();
+        });
+
+        document.getElementById('editModal').addEventListener('click', e => {
+            if (e.target.id === 'editModal') closeEditModal();
         });
 
         // Load data ved start
