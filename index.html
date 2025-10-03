@@ -51,17 +51,16 @@
         }
         
         .input-group {
-            display: flex;
-            gap: 10px;
             margin-bottom: 10px;
         }
         
         input {
-            flex: 1;
+            width: 100%;
             padding: 12px;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             font-size: 1em;
+            margin-bottom: 10px;
         }
         
         input:focus {
@@ -102,24 +101,30 @@
         
         .person-name {
             font-size: 1.3em;
-            font-weight: bold;
+            font-weight: 600;
             color: #333;
         }
         
-        .person-debt {
+        .person-phone {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .debt-amount {
             font-size: 1.5em;
-            font-weight: bold;
+            font-weight: 700;
             color: #e74c3c;
         }
         
-        .person-debt.paid {
+        .debt-amount.zero {
             color: #27ae60;
         }
         
         .action-row {
             display: flex;
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-top: 15px;
         }
         
         .btn-small {
@@ -127,8 +132,8 @@
             padding: 10px;
             border: none;
             border-radius: 8px;
-            font-size: 0.9em;
             cursor: pointer;
+            font-size: 0.9em;
             font-weight: 600;
         }
         
@@ -152,36 +157,6 @@
             color: white;
         }
         
-        .amount-input {
-            width: 100%;
-            padding: 10px;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 1em;
-            margin-bottom: 10px;
-        }
-        
-        .empty-state {
-            text-align: center;
-            color: #999;
-            padding: 30px;
-            font-size: 1.1em;
-        }
-        
-        .transaction-list {
-            margin-top: 10px;
-            padding-top: 10px;
-            border-top: 1px solid #ddd;
-            font-size: 0.9em;
-            color: #666;
-        }
-        
-        .transaction-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-        }
-        
         .modal {
             display: none;
             position: fixed;
@@ -189,26 +164,48 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.7);
             z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal.active {
+            display: flex;
         }
         
         .modal-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
             background: white;
-            padding: 30px;
             border-radius: 20px;
-            width: 90%;
+            padding: 30px;
             max-width: 400px;
+            width: 90%;
         }
         
-        .modal-buttons {
+        .modal-title {
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .transaction-list {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px dashed #e0e0e0;
+            font-size: 0.9em;
+        }
+        
+        .transaction-item {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            justify-content: space-between;
+            padding: 5px 0;
+            color: #666;
+        }
+        
+        .empty-state {
+            text-align: center;
+            color: #999;
+            padding: 20px;
         }
     </style>
 </head>
@@ -216,178 +213,164 @@
     <div class="container">
         <div class="header">
             <h1>💰 Gæld Tracker</h1>
-            <p>Hold styr på hvem der skylder hvad</p>
+            <p>Hold styr på hvem der skylder dig penge</p>
         </div>
 
-        <!-- Tilføj person -->
         <div class="card">
-            <div class="section-title">➕ Tilføj Person</div>
-            <input type="text" id="newPersonName" placeholder="Navn..." style="width: 100%; margin-bottom: 10px;" />
-            <input type="tel" id="newPersonPhone" placeholder="Tlf (valgfrit)" style="width: 100%; margin-bottom: 15px;" />
-            <button class="btn" onclick="addPerson()">Tilføj</button>
+            <div class="section-title">👤 Tilføj Person</div>
+            <div class="input-group">
+                <input type="text" id="newPersonName" placeholder="Navn...">
+                <input type="tel" id="newPersonPhone" placeholder="Telefonnummer...">
+                <button class="btn" onclick="addPerson()">➕ Tilføj</button>
+            </div>
         </div>
 
-        <!-- Personer med gæld -->
         <div class="card">
-            <div class="section-title">👥 Gæld Oversigt</div>
-            <div id="personList"></div>
+            <div class="section-title">📋 Personer</div>
+            <div id="peopleList" class="empty-state">Ingen personer endnu</div>
         </div>
     </div>
 
-    <!-- Modal til tilføj/fratræk -->
-    <div class="modal" id="amountModal">
+    <!-- Modal til beløb -->
+    <div id="amountModal" class="modal">
         <div class="modal-content">
-            <div class="section-title" id="modalTitle"></div>
-            <input type="number" class="amount-input" id="modalAmount" placeholder="Beløb (kr)" step="0.01" />
-            <input type="text" class="amount-input" id="modalNote" placeholder="Note (valgfrit)" />
-            <div class="modal-buttons">
-                <button class="btn" onclick="closeModal()" style="background: #95a5a6;">Annuller</button>
-                <button class="btn" onclick="confirmAmount()" id="confirmBtn">Bekræft</button>
-            </div>
+            <div class="modal-title" id="modalTitle">Indtast beløb</div>
+            <input type="number" id="modalAmount" placeholder="Beløb (kr)" step="0.01">
+            <input type="text" id="modalNote" placeholder="Note (valgfrit)">
+            <button class="btn" onclick="confirmAmount()" style="margin-top: 10px;">✓ Bekræft</button>
+            <button class="btn" onclick="closeModal()" style="margin-top: 10px; background: #95a5a6;">✕ Annuller</button>
         </div>
     </div>
 
     <script>
         let people = [];
-        let currentPerson = null;
         let currentAction = null;
 
-        // Load data
         function loadData() {
             const saved = localStorage.getItem('debtTracker');
-            if (saved) people = JSON.parse(saved);
-            updateUI();
+            if (saved) {
+                people = JSON.parse(saved);
+                renderPeople();
+            }
         }
 
-        // Gem data
         function saveData() {
             localStorage.setItem('debtTracker', JSON.stringify(people));
         }
 
-        // Tilføj person
         function addPerson() {
             const name = document.getElementById('newPersonName').value.trim();
             const phone = document.getElementById('newPersonPhone').value.trim();
             
-            if (name) {
-                people.push({
-                    name: name,
-                    phone: phone,
-                    debt: 0,
-                    transactions: []
-                });
-                document.getElementById('newPersonName').value = '';
-                document.getElementById('newPersonPhone').value = '';
-                saveData();
-                updateUI();
+            if (!name) {
+                alert('Indtast venligst et navn');
+                return;
             }
+            
+            people.push({
+                name: name,
+                phone: phone,
+                debt: 0,
+                transactions: []
+            });
+            
+            document.getElementById('newPersonName').value = '';
+            document.getElementById('newPersonPhone').value = '';
+            
+            saveData();
+            renderPeople();
         }
 
-        // Vis modal
-        function showModal(index, action) {
-            currentPerson = index;
-            currentAction = action;
-            
-            const modal = document.getElementById('amountModal');
-            const title = document.getElementById('modalTitle');
-            const confirmBtn = document.getElementById('confirmBtn');
-            
-            if (action === 'add') {
-                title.textContent = '➕ Tilføj Gæld';
-                confirmBtn.textContent = 'Tilføj Gæld';
-                confirmBtn.style.background = '#e74c3c';
-            } else {
-                title.textContent = '💳 Registrer Betaling';
-                confirmBtn.textContent = 'Registrer';
-                confirmBtn.style.background = '#27ae60';
-            }
-            
-            modal.style.display = 'block';
+        function openAmountModal(personIndex, type) {
+            currentAction = { personIndex, type };
+            document.getElementById('modalTitle').textContent = 
+                type === 'add' ? '➕ Tilføj Gæld' : '💳 Registrer Betaling';
+            document.getElementById('amountModal').classList.add('active');
             document.getElementById('modalAmount').focus();
         }
 
-        // Luk modal
         function closeModal() {
-            document.getElementById('amountModal').style.display = 'none';
+            document.getElementById('amountModal').classList.remove('active');
             document.getElementById('modalAmount').value = '';
             document.getElementById('modalNote').value = '';
+            currentAction = null;
         }
 
-        // Bekræft beløb
         function confirmAmount() {
             const amount = parseFloat(document.getElementById('modalAmount').value);
             const note = document.getElementById('modalNote').value.trim();
             
-            if (amount > 0) {
-                const person = people[currentPerson];
-                const date = new Date().toLocaleDateString('da-DK');
-                
-                if (currentAction === 'add') {
-                    person.debt += amount;
-                    person.transactions.push({
-                        type: 'add',
-                        amount: amount,
-                        note: note || 'Gæld tilføjet',
-                        date: date
-                    });
-                } else {
-                    person.debt -= amount;
-                    person.transactions.push({
-                        type: 'subtract',
-                        amount: amount,
-                        note: note || 'Betaling modtaget',
-                        date: date
-                    });
-                }
-                
-                saveData();
-                updateUI();
-                closeModal();
-            }
-        }
-
-        // Send SMS
-        function sendSMS(index) {
-            const person = people[index];
-            const message = `Hej ${person.name}! Du skylder mig ${person.debt.toFixed(2)} kr. Kan du betale via MobilePay eller bankoverførsel? Mvh`;
-            
-            if (person.phone) {
-                window.location.href = `sms:${person.phone}?body=${encodeURIComponent(message)}`;
-            } else {
-                alert('Intet telefonnummer gemt for denne person');
-            }
-        }
-
-        // Slet person
-        function deletePerson(index) {
-            if (confirm(`Slet ${people[index].name}?`)) {
-                people.splice(index, 1);
-                saveData();
-                updateUI();
-            }
-        }
-
-        // Opdater UI
-        function updateUI() {
-            const list = document.getElementById('personList');
-            
-            if (people.length === 0) {
-                list.innerHTML = '<div class="empty-state">Ingen personer endnu<br>Tilføj en person for at starte</div>';
+            if (!amount || amount <= 0) {
+                alert('Indtast et gyldigt beløb');
                 return;
             }
             
-            list.innerHTML = people.map((person, index) => `
+            const { personIndex, type } = currentAction;
+            const person = people[personIndex];
+            
+            if (type === 'add') {
+                person.debt += amount;
+            } else {
+                person.debt -= amount;
+            }
+            
+            person.transactions.push({
+                type: type,
+                amount: amount,
+                note: note || (type === 'add' ? 'Gæld tilføjet' : 'Betaling modtaget'),
+                date: new Date().toLocaleDateString('da-DK')
+            });
+            
+            saveData();
+            renderPeople();
+            closeModal();
+        }
+
+        function sendSMS(personIndex) {
+            const person = people[personIndex];
+            
+            if (!person.phone) {
+                alert('Intet telefonnummer registreret');
+                return;
+            }
+            
+            const message = `Hej ${person.name}! Du skylder mig ${person.debt.toFixed(2)} kr. Kan du betale via MobilePay eller på Revolut https://revolut.me/iamjc - hvis ikke du kan betale hele beløbet kan du overføre det du kan. Tak :-)`;
+            
+            window.location.href = `sms:${person.phone}?&body=${encodeURIComponent(message)}`;
+        }
+
+        function deletePerson(personIndex) {
+            const person = people[personIndex];
+            if (confirm(`Slet ${person.name}?`)) {
+                people.splice(personIndex, 1);
+                saveData();
+                renderPeople();
+            }
+        }
+
+        function renderPeople() {
+            const container = document.getElementById('peopleList');
+            
+            if (people.length === 0) {
+                container.innerHTML = '<div class="empty-state">Ingen personer endnu</div>';
+                return;
+            }
+            
+            container.innerHTML = people.map((person, index) => `
                 <div class="person-card">
                     <div class="person-header">
-                        <div class="person-name">👤 ${person.name}</div>
-                        <div class="person-debt ${person.debt <= 0 ? 'paid' : ''}">
-                            ${person.debt > 0 ? person.debt.toFixed(2) : '0.00'} kr
+                        <div>
+                            <div class="person-name">${person.name}</div>
+                            ${person.phone ? `<div class="person-phone">📱 ${person.phone}</div>` : ''}
+                        </div>
+                        <div class="debt-amount ${person.debt === 0 ? 'zero' : ''}">
+                            ${person.debt.toFixed(2)} kr
                         </div>
                     </div>
                     
                     <div class="action-row">
-                        <button class="btn-small btn-add" onclick="showModal(${index}, 'add')">➕ Tilføj Gæld</button>
-                        <button class="btn-small btn-subtract" onclick="showModal(${index}, 'subtract')">💳 Betaling</button>
+                        <button class="btn-small btn-add" onclick="openAmountModal(${index}, 'add')">➕ Tilføj Gæld</button>
+                        <button class="btn-small btn-subtract" onclick="openAmountModal(${index}, 'subtract')">💳 Betaling</button>
                     </div>
                     
                     <div class="action-row">
