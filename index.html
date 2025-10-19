@@ -5,6 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gælds App</title>
     <style>
+        /* CSS-variabler for nemmere farveændring */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --bg-gradient-start: #667eea;
+            --bg-gradient-end: #764ba2;
+            --positive-header-start: var(--primary-color);
+            --positive-header-end: var(--secondary-color);
+            --negative-header-start: #00b09b; /* Teal-grøn */
+            --negative-header-end: #96c93d; /* Lime-grøn */
+            --balance-positive-color: #ffd700; /* Guld */
+            --balance-negative-color: #fff;
+            --action-sms: #25D366;
+            --action-cleared-positive: #4CAF50;
+            --action-cleared-negative: #FF5722; /* Orange */
+            --action-partial: #FF9800;
+            --action-add-debt: #33aaff; /* Blå */
+            --action-delete: #f44336;
+        }
+        
         * {
             margin: 0;
             padding: 0;
@@ -13,7 +33,7 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
             min-height: 100vh;
             padding: 20px;
         }
@@ -28,13 +48,13 @@
         }
 
         h1 {
-            color: #667eea;
+            color: var(--primary-color);
             text-align: center;
             margin-bottom: 30px;
             font-size: 2em;
         }
 
-        /* TOTAL UDLÅNT SEKTION */
+        /* TOTAL SEKTION */
         .total-section {
             background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             padding: 20px;
@@ -48,369 +68,112 @@
         .total-section.visible {
             display: block;
         }
+        .total-label { color: rgba(255,255,255,0.9); font-size: 14px; margin-bottom: 5px; font-weight: 600; }
+        .total-amount { color: white; font-size: 32px; font-weight: bold; }
 
-        .total-label {
-            color: rgba(255,255,255,0.9);
-            font-size: 14px;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .total-amount {
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-        }
-
-        /* SENDER SECTION - COLLAPSIBLE */
-        .sender-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            margin-bottom: 20px;
-            overflow: hidden;
-        }
-
-        .sender-header {
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: white;
-        }
-
-        .sender-header:hover {
-            background: rgba(255,255,255,0.1);
-        }
-
-        .sender-header h2 {
-            font-size: 1.2em;
-            margin: 0;
-        }
-
-        .arrow {
-            font-size: 1.5em;
-            transition: transform 0.3s;
-        }
-
-        .arrow.rotated {
-            transform: rotate(180deg);
-        }
-
-        .sender-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-        }
-
-        .sender-content.active {
-            max-height: 300px;
-        }
-
-        .sender-inner {
-            padding: 0 20px 20px 20px;
-            color: white;
-        }
-
-        .input-group {
-            margin-bottom: 15px;
-        }
-
-        .input-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: 600;
-        }
-
-        .input-group input {
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-        }
+        /* SENDER SECTION */
+        .sender-section { background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%); border-radius: 15px; margin-bottom: 20px; overflow: hidden; }
+        .sender-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: white; }
+        .sender-header:hover { background: rgba(255,255,255,0.1); }
+        .sender-header h2 { font-size: 1.2em; margin: 0; }
+        .arrow { font-size: 1.5em; transition: transform 0.3s; }
+        .arrow.rotated { transform: rotate(180deg); }
+        .sender-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
+        .sender-content.active { max-height: 300px; }
+        .sender-inner { padding: 0 20px 20px 20px; color: white; }
+        .input-group { margin-bottom: 15px; }
+        .input-group label { display: block; margin-bottom: 5px; font-weight: 600; }
+        .input-group input { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 1em; }
 
         /* FORM SECTION */
-        .form-section {
-            background: #f8f9ff;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 30px;
-            border: 2px solid #667eea;
-        }
-
-        .form-section h2 {
-            color: #667eea;
-            margin-bottom: 20px;
-            font-size: 1.3em;
-        }
-
-        .form-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
-            flex-wrap: wrap;
-        }
-
-        .form-row input {
-            flex: 1;
-            min-width: 200px;
-            padding: 12px;
-            border: 2px solid #ddd;
-            border-radius: 8px;
-            font-size: 1em;
-        }
-
-        .form-row input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 8px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-weight: 600;
-        }
-
-        .btn-add {
-            background: #667eea;
-            color: white;
-            width: 100%;
-            margin-top: 10px;
-        }
-
-        .btn-add:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-        }
+        .form-section { background: #f8f9ff; padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 2px solid var(--primary-color); }
+        .form-section h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.3em; }
+        .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .form-row input { flex: 1; min-width: 200px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1em; }
+        .form-row input:focus { outline: none; border-color: var(--primary-color); }
+        .btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 1em; cursor: pointer; transition: all 0.3s; font-weight: 600; }
+        .btn-add { background: var(--primary-color); color: white; width: 100%; margin-top: 10px; }
+        .btn-add:hover { background: #5568d3; transform: translateY(-2px); }
 
         /* PEOPLE LIST */
-        .person-card {
-            background: white;
-            border-radius: 15px;
-            padding: 0;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            border: 2px solid #e0e0e0;
-            overflow: hidden;
-        }
+        .person-card { background: white; border-radius: 15px; padding: 0; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #e0e0e0; overflow: hidden; }
         
-        /* Person Kort Farver */
-        /* Positiv Balance: Skylder dig penge (Lilla) */
-        .person-card[data-balance-type="positive"] .person-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        }
-        .person-card[data-balance-type="positive"] .person-header:hover {
-            background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
-        }
-        .person-card[data-balance-type="positive"] .person-balance {
-            color: #ffd700; /* Guld */
-        }
+        /* Kort Farver */
+        .person-card[data-balance-type="positive"] .person-header { background: linear-gradient(135deg, var(--positive-header-start) 0%, var(--positive-header-end) 100%); }
+        .person-card[data-balance-type="positive"] .person-header:hover { background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%); }
+        .person-card[data-balance-type="positive"] .person-balance { color: var(--balance-positive-color); }
 
-        /* Negativ Balance: Du skylder personen penge/har betalt for meget (Grøn) */
-        .person-card[data-balance-type="negative"] .person-header {
-            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
-        }
-        .person-card[data-balance-type="negative"] .person-header:hover {
-            background: linear-gradient(135deg, #009688 0%, #82b535 100%);
-        }
-        .person-card[data-balance-type="negative"] .person-balance {
-            color: #fff;
-        }
+        .person-card[data-balance-type="negative"] .person-header { background: linear-gradient(135deg, var(--negative-header-start) 0%, var(--negative-header-end) 100%); }
+        .person-card[data-balance-type="negative"] .person-header:hover { background: linear-gradient(135deg, #009688 0%, #82b535 100%); }
+        .person-card[data-balance-type="negative"] .person-balance { color: var(--balance-negative-color); }
 
-        .person-header {
-            padding: 20px;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            transition: all 0.3s;
-        }
-
-        .person-info h3 {
-            color: white;
-            margin-bottom: 5px;
-            font-size: 1.2em;
-        }
-
-        .person-balance {
-            font-size: 1.3em;
-            font-weight: bold;
-        }
-
-        .person-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            background: #f8f9ff;
-        }
-
-        .person-content.active {
-            max-height: 800px;
-        }
-
-        .person-inner {
-            padding: 20px;
-        }
+        .person-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; }
+        .person-info h3 { color: white; margin-bottom: 5px; font-size: 1.2em; }
+        .person-balance { font-size: 1.3em; font-weight: bold; }
+        .person-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: #f8f9ff; }
+        .person-content.active { max-height: 800px; }
+        .person-inner { padding: 20px; }
 
         .action-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1fr; /* To kolonner */
             gap: 10px;
             margin-bottom: 15px;
         }
-
-        .btn-sms {
-            background: #25D366;
-            color: white;
+        /* Udvid til 3 kolonner ved større skærme, men hold 2 på mindre */
+        @media (min-width: 600px) {
+            .action-buttons {
+                grid-template-columns: 1fr 1fr 1fr;
+            }
         }
 
-        .btn-sms:hover {
-            background: #20bd5a;
-        }
+        .btn-sms { background: var(--action-sms); color: white; }
+        .btn-sms:hover { background: #20bd5a; }
 
-        .btn-paid {
-            background: #4CAF50;
-            color: white;
-        }
+        .btn-paid { background: var(--action-cleared-positive); color: white; }
+        .btn-cleared { background: var(--action-cleared-negative); color: white; }
+        .btn-paid:hover { background: #45a049; }
+        .btn-cleared:hover { background: #e64a19; }
+
+        .btn-partial { background: var(--action-partial); color: white; }
+        .btn-partial:hover { background: #e68900; }
         
-        .btn-cleared { /* Ny knap for at rydde balancen */
-            background: #FF5722; /* Orange for klar-gæld/tilgodehavende */
-            color: white;
-        }
+        .btn-add-debt { background: var(--action-add-debt); color: white; }
+        .btn-add-debt:hover { background: #1997e6; }
 
-        .btn-paid:hover {
-            background: #45a049;
-        }
+        .btn-delete { background: var(--action-delete); color: white; }
+        .btn-delete:hover { background: #da190b; }
+
+        .history-section { margin-top: 20px; padding-top: 20px; border-top: 2px solid #ddd; }
+        .history-section h4 { color: var(--primary-color); margin-bottom: 10px; }
+
+        .history-item { background: white; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 0.9em;}
         
-        .btn-cleared:hover {
-            background: #e64a19;
-        }
-
-        .btn-partial {
-            background: #FF9800;
-            color: white;
-        }
-
-        .btn-partial:hover {
-            background: #e68900;
-        }
-
-        .btn-delete {
-            background: #f44336;
-            color: white;
-        }
-
-        .btn-delete:hover {
-            background: #da190b;
-        }
-
-        .history-section {
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 2px solid #ddd;
-        }
-
-        .history-section h4 {
-            color: #667eea;
-            margin-bottom: 10px;
-        }
-
-        .history-item {
-            background: white;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            display: flex;
-            justify-content: space-between;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
+        .history-item.payment { border-left: 5px solid var(--action-partial); }
+        .history-item.initial { border-left: 5px solid var(--primary-color); }
+        .history-item.new-debt { border-left: 5px solid var(--action-add-debt); }
+        .history-item.cleared { border-left: 5px solid var(--action-cleared-negative); }
         
-        .history-item.payment {
-             border-left: 5px solid #4CAF50;
-        }
-        .history-item.initial {
-             border-left: 5px solid #667eea;
-        }
+        .history-item span { color: #666; }
+        .history-item strong { color: #333; }
 
         /* MODAL */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .modal.active {
-            display: flex;
-        }
-
-        .modal-content {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            max-width: 400px;
-            width: 90%;
-        }
-
-        .modal-content h3 {
-            color: #667eea;
-            margin-bottom: 20px;
-        }
-
-        .modal-buttons {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .btn-confirm {
-            background: #4CAF50;
-            color: white;
-            flex: 1;
-        }
-
-        .btn-cancel {
-            background: #f44336;
-            color: white;
-            flex: 1;
-        }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 15px; max-width: 400px; width: 90%; }
+        .modal-content h3 { color: var(--primary-color); margin-bottom: 20px; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
+        .btn-confirm { background: var(--action-cleared-positive); color: white; flex: 1; }
+        .btn-cancel { background: var(--action-delete); color: white; flex: 1; }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            .form-row {
-                flex-direction: column;
-            }
-
-            .form-row input {
-                min-width: 100%;
-            }
-
-            .action-buttons {
-                grid-template-columns: 1fr;
-            }
-
-            .total-amount {
-                font-size: 28px;
-            }
+            .container { padding: 15px; }
+            h1 { font-size: 1.5em; }
+            .form-row { flex-direction: column; }
+            .form-row input { min-width: 100%; }
+            .action-buttons { grid-template-columns: 1fr 1fr; }
+            .total-amount { font-size: 28px; }
         }
     </style>
 </head>
@@ -444,13 +207,13 @@
 
         <div class="form-section">
             <h2>➕ Tilføj Ny Person</h2>
-            <p style="margin-bottom: 15px; font-size: 0.9em; color: #764ba2;">Brug **positivt** beløb for gæld til dig (f.eks. 100). Brug **negativt** beløb for tilgodehavende (f.eks. -100).</p>
+            <p style="margin-bottom: 15px; font-size: 0.9em; color: var(--secondary-color);">Brug **positivt** beløb for gæld til dig (f.eks. 100). Brug **negativt** beløb for tilgodehavende (f.eks. -100).</p>
             <div class="form-row">
-                <input type="text" id="personName" placeholder="Navn">
-                <input type="tel" id="personPhone" placeholder="Telefon">
+                <input type="text" id="personName" placeholder="Navn" required>
+                <input type="tel" id="personPhone" placeholder="Telefon" required>
             </div>
             <div class="form-row">
-                <input type="number" id="startBalance" placeholder="Start beløb (kr) - Positiv/Negativ" step="0.01">
+                <input type="number" id="startBalance" placeholder="Start beløb (kr) - Positiv/Negativ" step="0.01" required>
             </div>
             <button class="btn btn-add" onclick="addPerson()">Tilføj Person</button>
         </div>
@@ -458,16 +221,32 @@
         <div id="peopleList"></div>
     </div>
 
-    <div id="partialModal" class="modal">
+    <div id="paymentModal" class="modal">
         <div class="modal-content">
-            <h3 id="modalPersonName"></h3>
+            <h3 id="paymentModalTitle">Betalings Modal</h3>
+            <h4 id="paymentModalPersonName" style="color: #333; margin-bottom: 15px; font-weight: normal;"></h4>
             <div class="input-group">
-                <label id="modalAmountLabel">Beløb betalt (kr):</label>
-                <input type="number" id="modalAmount" placeholder="0.00" step="0.01">
+                <label id="paymentModalAmountLabel">Beløb (kr):</label>
+                <input type="number" id="paymentModalAmount" placeholder="0.00" step="0.01">
             </div>
             <div class="modal-buttons">
-                <button class="btn btn-confirm" onclick="handlePayment()">✓ Bekræft</button>
-                <button class="btn btn-cancel" onclick="closeModal()">✗ Annuller</button>
+                <button class="btn btn-confirm" onclick="handlePayment()">✓ Bekræft Betaling</button>
+                <button class="btn btn-cancel" onclick="closeModal('paymentModal')">✗ Annuller</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="addDebtModal" class="modal">
+        <div class="modal-content">
+            <h3 id="addDebtModalTitle">Tilføj Gæld/Kredit</h3>
+            <h4 id="addDebtModalPersonName" style="color: #333; margin-bottom: 15px; font-weight: normal;"></h4>
+            <div class="input-group">
+                <label>Nyt Beløb (kr - Positiv/Negativ):</label>
+                <input type="number" id="newDebtAmount" placeholder="100.00 eller -50.00" step="0.01">
+            </div>
+            <div class="modal-buttons">
+                <button class="btn btn-confirm" onclick="addNewDebt()">✓ Bekræft Tilføjelse</button>
+                <button class="btn btn-cancel" onclick="closeModal('addDebtModal')">✗ Annuller</button>
             </div>
         </div>
     </div>
@@ -476,6 +255,23 @@
         let people = [];
         let currentPersonIndex = null;
         let openAccordionIndex = null;
+        
+        // Formaterer datoen til DD-MM-YYYY
+        function getFormattedDate() {
+            const now = new Date();
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Måneder er 0-baseret
+            const year = now.getFullYear();
+            return `${day}-${month}-${year}`;
+        }
+
+        // Formaterer tal til dansk valutaformat
+        const currencyFormatter = new Intl.NumberFormat('da-DK', {
+            style: 'currency',
+            currency: 'DKK',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        });
 
         function saveData() {
             localStorage.setItem('debtTrackerPeople', JSON.stringify(people));
@@ -512,10 +308,8 @@
         function addPerson() {
             const name = document.getElementById('personName').value.trim();
             const phone = document.getElementById('personPhone').value.trim();
-            // Tillader negative værdier
             const balance = parseFloat(document.getElementById('startBalance').value);
 
-            // Tjekker kun for navne og telefoner, men tillader 0 eller negative beløb
             if (!name || !phone || isNaN(balance)) {
                 alert('Udfyld venligst Navn, Telefon og et gyldigt Start beløb!');
                 return;
@@ -526,7 +320,7 @@
                 phone: phone,
                 balance: balance,
                 history: [{
-                    date: new Date().toLocaleString('da-DK'),
+                    date: getFormattedDate(), // Bruger det nye datoformat
                     amount: balance,
                     type: 'initial'
                 }]
@@ -546,14 +340,11 @@
             // OPDATER TOTAL NETTO BALANCE
             const totalSection = document.getElementById('totalSection');
             const totalAmount = document.getElementById('totalAmount');
-            // Beregner netto balancen (positiv gæld minus negativ gæld)
             const total = people.reduce((sum, person) => sum + person.balance, 0);
             
             if (people.length > 0) {
                 totalSection.classList.add('visible');
-                // Viser '+' for positiv balance
-                const totalText = `${total >= 0 ? '+' : ''}${total.toFixed(2)} kr`;
-                totalAmount.textContent = totalText;
+                totalAmount.textContent = currencyFormatter.format(total);
             } else {
                 totalSection.classList.remove('visible');
             }
@@ -565,11 +356,15 @@
 
             container.innerHTML = people.map((person, index) => {
                 const isPositive = person.balance >= 0;
+                const balanceAbs = Math.abs(person.balance);
+                const balanceFormatted = currencyFormatter.format(balanceAbs).replace('kr.', 'kr'); // Fjerner punktum for kortere visning
+                
                 const balanceText = isPositive ? 
-                    `Skylder dig: ${person.balance.toFixed(2)} kr` : 
-                    `Du skylder: ${Math.abs(person.balance).toFixed(2)} kr`;
+                    `Skylder dig: ${balanceFormatted}` : 
+                    `Du skylder: ${balanceFormatted}`;
+                    
                 const balanceType = isPositive ? 'positive' : 'negative';
-                const clearButtonText = isPositive ? '✓ Betalt' : '✓ Udbetalt';
+                const clearButtonText = isPositive ? '✓ Betalt (Gæld til dig)' : '✓ Udbetalt (Gæld fra dig)';
                 const clearButtonClass = isPositive ? 'btn-paid' : 'btn-cleared';
 
 
@@ -586,8 +381,9 @@
                             <div class="person-inner">
                                 <div class="action-buttons">
                                     <button class="btn btn-sms" onclick="sendSMS(${index})">📱 SMS</button>
+                                    <button class="btn btn-add-debt" onclick="openAddDebtModal(${index})">➕ Tilføj Gæld</button>
+                                    <button class="btn btn-partial" onclick="openPaymentModal(${index})">💵 Betaling/Tilbagebetaling</button>
                                     <button class="btn ${clearButtonClass}" onclick="clearBalance(${index})">${clearButtonText}</button>
-                                    <button class="btn btn-partial" onclick="openPartialModal(${index})">💵 Betaling/Tilbagebetaling</button>
                                     <button class="btn btn-delete" onclick="deletePerson(${index})">🗑️ Slet</button>
                                 </div>
                                 
@@ -595,12 +391,19 @@
                                     <div class="history-section">
                                         <h4>📋 Historik</h4>
                                         ${person.history.map(h => {
-                                            const historyClass = h.type === 'initial' ? 'initial' : 'payment';
-                                            const prefix = h.amount >= 0 ? '+' : '';
+                                            const historyClass = h.type === 'initial' ? 'initial' : (h.type === 'new-debt' ? 'new-debt' : (h.type === 'cleared' ? 'cleared' : 'payment'));
+                                            const amountFormatted = currencyFormatter.format(h.amount).replace('kr.', 'kr');
+                                            
+                                            let typeText = '';
+                                            if (h.type === 'initial') typeText = 'Startsaldo';
+                                            else if (h.type === 'partial') typeText = 'Betaling/Tilbagebetaling';
+                                            else if (h.type === 'new-debt') typeText = 'Ny Gæld/Kredit';
+                                            else if (h.type === 'cleared') typeText = 'Saldo ryddet';
+
                                             return `
                                                 <div class="history-item ${historyClass}">
-                                                    <span>${h.date} - ${h.type === 'initial' ? 'Startsaldo' : 'Betaling'}</span>
-                                                    <strong>${prefix}${h.amount.toFixed(2)} kr</strong>
+                                                    <span>${h.date} - ${typeText}</span>
+                                                    <strong>${amountFormatted}</strong>
                                                 </div>
                                             `;
                                         }).join('')}
@@ -622,75 +425,75 @@
             renderPeople();
         }
 
-        function sendSMS(index) {
-            const person = people[index];
-            const senderPhone = document.getElementById('senderPhone').value || 'INTET NUMMER';
-            const revolutLink = document.getElementById('revolutLink').value || 'https://revolut.me/iamjc';
-            
-            let message;
-            if (person.balance > 0) {
-                 message = `Hej ${person.name}! Du skylder mig ${person.balance.toFixed(2)} kr. Kan du betale via MobilePay (${senderPhone}) eller på Revolut ${revolutLink}? Hvis du ikke kan betale hele beløbet, kan du overføre det du kan. Tak :-)`;
-            } else if (person.balance < 0) {
-                const amount = Math.abs(person.balance).toFixed(2);
-                message = `Hej ${person.name}! Jeg skylder dig ${amount} kr. Jeg overfører beløbet til dig snarest. Lad mig vide, hvis du har en foretrukken betalingsmetode. Mvh.`;
-            } else {
-                 message = `Hej ${person.name}! Vi skylder ikke hinanden penge for øjeblikket. Mvh.`;
-            }
-            
-            window.location.href = `sms:${person.phone}?body=${encodeURIComponent(message)}`;
-        }
-
-        function clearBalance(index) {
-            const person = people[index];
-            const isPositive = person.balance >= 0;
-            const confirmationText = isPositive ? 
-                `Marker ${person.name} som fuldt betalt (gæld til dig)?` : 
-                `Marker at du har betalt ${person.name} tilbage for ${Math.abs(person.balance).toFixed(2)} kr?`;
-
-            if (confirm(confirmationText)) {
-                // Gemmer den nuværende balance for historikken
-                const clearedAmount = -person.balance; 
-                
-                person.balance = 0;
-                person.history.push({
-                    date: new Date().toLocaleString('da-DK'),
-                    // Gemmer det faktiske beløb, der blev udlignet/ændret
-                    amount: clearedAmount, 
-                    type: 'cleared'
-                });
-                saveData();
-                renderPeople();
-            }
-        }
-
-        function openPartialModal(index) {
-            currentPersonIndex = index;
-            const person = people[index];
-            const isPositive = person.balance >= 0;
-            const balanceAbs = Math.abs(person.balance).toFixed(2);
-
-            if (isPositive) {
-                document.getElementById('modalPersonName').textContent = 
-                    `${person.name} skylder dig: ${balanceAbs} kr`;
-                document.getElementById('modalAmountLabel').textContent = 'Beløb betalt af person (kr):';
-            } else {
-                document.getElementById('modalPersonName').textContent = 
-                    `Du skylder ${person.name}: ${balanceAbs} kr`;
-                document.getElementById('modalAmountLabel').textContent = 'Beløb betalt til person (kr):';
-            }
-
-            document.getElementById('modalAmount').value = '';
-            document.getElementById('partialModal').classList.add('active');
-            document.getElementById('modalAmount').focus();
-        }
-
-        function closeModal() {
-            document.getElementById('partialModal').classList.remove('active');
+        // --- Modals og Transaktioner ---
+        
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
             currentPersonIndex = null;
         }
 
+        // Åbner modal til at TILFØJE GÆLD/KREDIT
+        function openAddDebtModal(index) {
+            currentPersonIndex = index;
+            const person = people[index];
+            document.getElementById('addDebtModalTitle').textContent = `Tilføj Ny Gæld/Kredit for ${person.name}`;
+            document.getElementById('addDebtModalPersonName').textContent = 
+                `Nuværende Saldo: ${currencyFormatter.format(person.balance)}`;
+            document.getElementById('newDebtAmount').value = '';
+            document.getElementById('addDebtModal').classList.add('active');
+            document.getElementById('newDebtAmount').focus();
+        }
+        
+        function addNewDebt() {
+            const amount = parseFloat(document.getElementById('newDebtAmount').value);
+            
+            if (isNaN(amount) || amount === 0) {
+                alert('Indtast et gyldigt beløb (positivt eller negativt)!');
+                return;
+            }
+            
+            const person = people[currentPersonIndex];
+            
+            // Tilføj beløbet direkte til balancen
+            person.balance += amount; 
+            
+            person.history.push({
+                date: getFormattedDate(),
+                amount: amount, 
+                type: 'new-debt'
+            });
+
+            saveData();
+            renderPeople();
+            closeModal('addDebtModal');
+        }
+
+        // Åbner modal til BETALING/TILBAGEBETALING
+        function openPaymentModal(index) {
+            currentPersonIndex = index;
+            const person = people[index];
+            const isPositive = person.balance >= 0;
+            const balanceAbs = Math.abs(person.balance);
+
+            document.getElementById('paymentModalTitle').textContent = `Registrer Betaling/Tilbagebetaling`;
+
+            if (isPositive) {
+                document.getElementById('paymentModalPersonName').textContent = 
+                    `${person.name} skylder dig: ${currencyFormatter.format(balanceAbs)}`;
+                document.getElementById('paymentModalAmountLabel').textContent = 'Beløb betalt af person (reducerer gælden):';
+            } else {
+                document.getElementById('paymentModalPersonName').textContent = 
+                    `Du skylder ${person.name}: ${currencyFormatter.format(balanceAbs)}`;
+                document.getElementById('paymentModalAmountLabel').textContent = 'Beløb betalt til person (reducerer dit tilgodehavende):';
+            }
+
+            document.getElementById('paymentModalAmount').value = '';
+            document.getElementById('paymentModal').classList.add('active');
+            document.getElementById('paymentModalAmount').focus();
+        }
+
         function handlePayment() {
-            const amount = parseFloat(document.getElementById('modalAmount').value);
+            const amount = parseFloat(document.getElementById('paymentModalAmount').value);
             const person = people[currentPersonIndex];
             const isPositive = person.balance >= 0;
             
@@ -700,47 +503,63 @@
             }
 
             // Tjekker om betalingen overstiger det aktuelle skyldige beløb (i absolut værdi)
-            if (amount > Math.abs(person.balance)) {
+            if (amount > Math.abs(person.balance) && person.balance !== 0) {
                  if (isPositive) {
-                    // Hvis personen betaler MERE end de skylder (positiv saldo)
-                    if (!confirm(`Beløbet ${amount.toFixed(2)} kr er større end gælden ${person.balance.toFixed(2)} kr. Er du sikker på, at du vil registrere dette? Personen vil nu have et tilgodehavende.`)) {
+                    if (!confirm(`Beløbet er større end gælden. Personen vil nu have et tilgodehavende. Fortsæt?`)) {
                         return;
                     }
                  } else {
-                     // Hvis du betaler MERE end du skylder (negativ saldo)
-                     if (!confirm(`Beløbet ${amount.toFixed(2)} kr er større end det skyldige beløb ${Math.abs(person.balance).toFixed(2)} kr. Er du sikker på, at du vil registrere dette? Du vil nu have et tilgodehavende fra personen.`)) {
+                     if (!confirm(`Beløbet er større end det skyldige beløb. Du vil nu have et tilgodehavende fra personen. Fortsæt?`)) {
                         return;
                     }
                  }
             }
             
-            // Hvis saldoen er positiv (personen skylder dig), trækkes betalingen fra saldoen.
-            // Hvis saldoen er negativ (du skylder personen), trækkes betalingen fra saldoen (dvs. den gøres mindre negativ).
+            // Trækker beløbet fra balancen.
+            // Hvis saldoen er positiv (gæld til dig), bliver den mindre positiv (eller negativ).
+            // Hvis saldoen er negativ (gæld fra dig), bliver den mindre negativ (eller positiv).
             person.balance -= amount;
             
-            // Gemmer betalingen som et negativt tal i historikken for at vise, at saldoen er faldet (hvis positiv saldo).
-            // Eller som et positivt tal, hvis du betaler (negativ saldo), men vi gemmer den absolutte værdi.
-            // For at gøre historikken konsekvent: Gem den faktiske ændring i balance:
-            const historyAmount = isPositive ? -amount : amount;
+            // Gemmer ændringen i historikken som et negativt tal (betaling fra/til dig)
+            const historyAmount = -amount;
 
             person.history.push({
-                date: new Date().toLocaleString('da-DK'),
-                amount: historyAmount, // Negativt for at indikere betaling, positivt for tilbagebetaling
+                date: getFormattedDate(),
+                amount: historyAmount, 
                 type: 'partial'
             });
 
             saveData();
             renderPeople();
-            closeModal();
+            closeModal('paymentModal');
+        }
+
+        function clearBalance(index) {
+            const person = people[index];
+            const isPositive = person.balance >= 0;
+            const confirmationText = isPositive ? 
+                `Marker ${person.name} som fuldt betalt (gæld til dig på ${currencyFormatter.format(person.balance)})?` : 
+                `Marker at du har betalt ${person.name} tilbage for ${currencyFormatter.format(Math.abs(person.balance))})?`;
+
+            if (confirm(confirmationText)) {
+                const clearedAmount = -person.balance; 
+                
+                person.balance = 0;
+                person.history.push({
+                    date: getFormattedDate(),
+                    amount: clearedAmount, 
+                    type: 'cleared'
+                });
+                saveData();
+                renderPeople();
+            }
         }
 
         function deletePerson(index) {
             if (confirm(`Slet ${people[index].name} og al historik?`)) {
-                // Sæt openAccordionIndex til null, hvis den slettede person var åben
                 if (openAccordionIndex === index) {
                     openAccordionIndex = null;
                 } else if (openAccordionIndex > index) {
-                    // Juster index hvis en tidligere person slettes
                     openAccordionIndex--;
                 }
                 
@@ -750,14 +569,22 @@
             }
         }
 
-        // Enter key support
+        // Enter key support for main form
         document.getElementById('startBalance').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addPerson();
             }
         });
+        
+        // Enter key support for add debt modal
+        document.getElementById('newDebtAmount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addNewDebt();
+            }
+        });
 
-        document.getElementById('modalAmount').addEventListener('keypress', function(e) {
+        // Enter key support for payment modal
+        document.getElementById('paymentModalAmount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 handlePayment();
             }
