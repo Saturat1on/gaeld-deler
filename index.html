@@ -537,32 +537,32 @@
                 <div class="person-card">
                     <div class="person-header">
                         <div class="person-info">
-                            <div class="person-name"> $ {person.name}</div>
-                             $ {person.phone ? `<div class="person-phone">📱  $ {person.phone}</div>` : ''}
+                            <div class="person-name">${person.name}</div>
+                            ${person.phone ? `<div class="person-phone">📱 ${person.phone}</div>` : ''}
                         </div>
-                        <div class="person-balance  $ {person.balance > 0 ? 'balance-positive' : 'balance-zero'}">
-                             $ {person.balance.toFixed(2).replace('.', ',')} kr
+                        <div class="person-balance ${person.balance > 0 ? 'balance-positive' : 'balance-zero'}">
+                            ${person.balance.toFixed(2).replace('.', ',')} kr
                         </div>
                     </div>
                     <div class="person-actions">
-                        <button class="btn-action btn-add" onclick="openModal( $ {index}, 'add')">
+                        <button class="btn-action btn-add" onclick="openModal(${index}, 'add')">
                             ➕ Gæld
                         </button>
-                        <button class="btn-action btn-pay" onclick="openModal( $ {index}, 'pay')">
+                        <button class="btn-action btn-pay" onclick="openModal(${index}, 'pay')">
                             💰 Betaling
                         </button>
-                        <button class="btn-action btn-edit" onclick="openEditModal( $ {index})">
+                        <button class="btn-action btn-edit" onclick="openEditModal(${index})">
                             ✏️ Rediger
                         </button>
-                         $ {person.phone && person.balance > 0 ? `
-                        <button class="btn-action btn-sms" onclick="sendReminder( $ {index})">
+                        ${person.phone && person.balance > 0 ? `
+                        <button class="btn-action btn-sms" onclick="sendReminder(${index})">
                             💬 SMS
                         </button>
                         ` : '<div></div>'}
-                        <button class="btn-action btn-history" onclick="openHistoryModal( $ {index})">
+                        <button class="btn-action btn-history" onclick="openHistoryModal(${index})">
                             📜 Historik
                         </button>
-                        <button class="btn-action btn-delete" onclick="openDeleteModal( $ {index})">
+                        <button class="btn-action btn-delete" onclick="openDeleteModal(${index})">
                             🗑️ Slet
                         </button>
                     </div>
@@ -612,7 +612,7 @@
                     date: date,
                     type: 'add',
                     amount: amount,
-                    text: `Tilføjet gæld:  $ {amount.toFixed(2)} kr`
+                    text: `Tilføjet gæld: ${amount.toFixed(2)} kr`
                 });
             } else {
                 person.balance -= amount;
@@ -620,7 +620,7 @@
                     date: date,
                     type: 'pay',
                     amount: amount,
-                    text: `Betaling modtaget:  $ {amount.toFixed(2)} kr`
+                    text: `Betaling modtaget: ${amount.toFixed(2)} kr`
                 });
             }
             
@@ -667,8 +667,8 @@
         function sendReminder(index) {
             const person = people[index];
             const amount = person.balance.toFixed(2).replace('.', ',');
-            const message = `Hej  $ {person.name}! 😊 Du skylder  $ {amount} kr. Betal hvad du kan - selv små beløb hjælper! 💚 Revolut: https://revolut.me/saturat1on`;
-            const smsUrl = `sms: $ {person.phone}&body= $ {encodeURIComponent(message)}`;
+            const message = `Hej ${person.name}! 😊 Du skylder ${amount} kr. Betal hvad du kan - selv små beløb hjælper! 💚 Revolut: https://revolut.me/saturat1on`;
+            const smsUrl = `sms:${person.phone}&body=${encodeURIComponent(message)}`;
             window.location.href = smsUrl;
         }
 
@@ -683,8 +683,8 @@
             } else {
                 content.innerHTML = person.history.map(item => `
                     <div class="history-item">
-                        <div class="history-date"> $ {item.date}</div>
-                        <div class="history-text"> $ {item.text}</div>
+                        <div class="history-date">${item.date}</div>
+                        <div class="history-text">${item.text}</div>
                     </div>
                 `).join('');
             }
@@ -719,4 +719,53 @@
         }
 
         // Close modals on outside click
-        window.onclick =
+        window.onclick = function(event) {
+            const amountModal = document.getElementById('amountModal');
+            const deleteModal = document.getElementById('deleteModal');
+            const editModal = document.getElementById('editModal');
+            const historyModal = document.getElementById('historyModal');
+            
+            if (event.target === amountModal) {
+                closeModal();
+            }
+            if (event.target === deleteModal) {
+                closeDeleteModal();
+            }
+            if (event.target === editModal) {
+                closeEditModal();
+            }
+            if (event.target === historyModal) {
+                closeHistoryModal();
+            }
+        }
+
+        // Handle Enter key in inputs
+        document.getElementById('personName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('personPhone').focus();
+            }
+        });
+
+        document.getElementById('personPhone').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('startBalance').focus();
+            }
+        });
+
+        document.getElementById('startBalance').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addPerson();
+            }
+        });
+
+        document.getElementById('modalAmount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmAmount();
+            }
+        });
+
+        // Load data on startup
+        loadData();
+    </script>
+</body>
+</html>
