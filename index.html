@@ -13,14 +13,14 @@
             --bg-gradient-end: #764ba2;
             --positive-header-start: var(--primary-color);
             --positive-header-end: var(--secondary-color);
-            --negative-header-start: #00b09b; /* Teal-grøn */
-            --negative-header-end: #96c93d; /* Lime-grøn */
-            --balance-positive-color: #ffd700; /* Guld */
+            --negative-header-start: #00b09b;
+            --negative-header-end: #96c93d;
+            --balance-positive-color: #ffd700;
             --balance-negative-color: #fff;
             --action-sms: #25D366;
             --action-cleared-positive: #4CAF50;
-            --action-cleared-negative: #FF5722; /* Orange */
-            --action-transaction: #33aaff; /* Blå - Ny universel transaktionsknap */
+            --action-cleared-negative: #FF5722;
+            --action-transaction: #33aaff;
             --action-delete: #f44336;
         }
         
@@ -67,104 +67,385 @@
         .total-section.visible {
             display: block;
         }
-        .total-label { color: rgba(255,255,255,0.9); font-size: 14px; margin-bottom: 5px; font-weight: 600; }
-        .total-amount { color: white; font-size: 32px; font-weight: bold; }
+        
+        .total-label { 
+            color: rgba(255,255,255,0.9); 
+            font-size: 14px; 
+            margin-bottom: 5px; 
+            font-weight: 600; 
+        }
+        
+        .total-amount { 
+            color: white; 
+            font-size: 32px; 
+            font-weight: bold; 
+        }
 
         /* SENDER SECTION */
-        .sender-section { background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%); border-radius: 15px; margin-bottom: 20px; overflow: hidden; }
-        .sender-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; color: white; }
-        .sender-header:hover { background: rgba(255,255,255,0.1); }
-        .sender-header h2 { font-size: 1.2em; margin: 0; }
-        .arrow { font-size: 1.5em; transition: transform 0.3s; }
-        .arrow.rotated { transform: rotate(180deg); }
-        .sender-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; }
-        .sender-content.active { max-height: 300px; }
-        .sender-inner { padding: 0 20px 20px 20px; color: white; }
-        .input-group { margin-bottom: 15px; }
-        .input-group label { display: block; margin-bottom: 5px; font-weight: 600; }
-        .input-group input { width: 100%; padding: 12px; border: none; border-radius: 8px; font-size: 1em; }
+        .sender-section { 
+            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%); 
+            border-radius: 15px; 
+            margin-bottom: 20px; 
+            overflow: hidden; 
+        }
+        
+        .sender-header { 
+            padding: 20px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            color: white; 
+        }
+        
+        .sender-header:hover { 
+            background: rgba(255,255,255,0.1); 
+        }
+        
+        .sender-header h2 { 
+            font-size: 1.2em; 
+            margin: 0; 
+        }
+        
+        .arrow { 
+            font-size: 1.5em; 
+            transition: transform 0.3s; 
+        }
+        
+        .arrow.rotated { 
+            transform: rotate(180deg); 
+        }
+        
+        .sender-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.3s ease; 
+        }
+        
+        .sender-content.active { 
+            max-height: 300px; 
+        }
+        
+        .sender-inner { 
+            padding: 0 20px 20px 20px; 
+            color: white; 
+        }
+        
+        .input-group { 
+            margin-bottom: 15px; 
+        }
+        
+        .input-group label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: 600; 
+        }
+        
+        .input-group input { 
+            width: 100%; 
+            padding: 12px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1em; 
+        }
 
         /* FORM SECTION */
-        .form-section { background: #f8f9ff; padding: 20px; border-radius: 15px; margin-bottom: 30px; border: 2px solid var(--primary-color); }
-        .form-section h2 { color: var(--primary-color); margin-bottom: 20px; font-size: 1.3em; }
-        .form-row { display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
-        .form-row input { flex: 1; min-width: 200px; padding: 12px; border: 2px solid #ddd; border-radius: 8px; font-size: 1em; }
-        .form-row input:focus { outline: none; border-color: var(--primary-color); }
-        .btn { padding: 12px 24px; border: none; border-radius: 8px; font-size: 1em; cursor: pointer; transition: all 0.3s; font-weight: 600; }
-        .btn-add { background: var(--primary-color); color: white; width: 100%; margin-top: 10px; }
-        .btn-add:hover { background: #5568d3; transform: translateY(-2px); }
+        .form-section { 
+            background: #f8f9ff; 
+            padding: 20px; 
+            border-radius: 15px; 
+            margin-bottom: 30px; 
+            border: 2px solid var(--primary-color); 
+        }
+        
+        .form-section h2 { 
+            color: var(--primary-color); 
+            margin-bottom: 20px; 
+            font-size: 1.3em; 
+        }
+        
+        .form-row { 
+            display: flex; 
+            gap: 10px; 
+            margin-bottom: 15px; 
+            flex-wrap: wrap; 
+        }
+        
+        .form-row input { 
+            flex: 1; 
+            min-width: 200px; 
+            padding: 12px; 
+            border: 2px solid #ddd; 
+            border-radius: 8px; 
+            font-size: 1em; 
+        }
+        
+        .form-row input:focus { 
+            outline: none; 
+            border-color: var(--primary-color); 
+        }
+        
+        .btn { 
+            padding: 12px 24px; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 1em; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            font-weight: 600; 
+        }
+        
+        .btn-add { 
+            background: var(--primary-color); 
+            color: white; 
+            width: 100%; 
+            margin-top: 10px; 
+        }
+        
+        .btn-add:hover { 
+            background: #5568d3; 
+            transform: translateY(-2px); 
+        }
 
         /* PEOPLE LIST */
-        .person-card { background: white; border-radius: 15px; padding: 0; margin-bottom: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); border: 2px solid #e0e0e0; overflow: hidden; }
+        .person-card { 
+            background: white; 
+            border-radius: 15px; 
+            padding: 0; 
+            margin-bottom: 15px; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
+            border: 2px solid #e0e0e0; 
+            overflow: hidden; 
+        }
         
         /* Kort Farver */
-        .person-card[data-balance-type="positive"] .person-header { background: linear-gradient(135deg, var(--positive-header-start) 0%, var(--positive-header-end) 100%); }
-        .person-card[data-balance-type="positive"] .person-header:hover { background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%); }
-        .person-card[data-balance-type="positive"] .person-balance { color: var(--balance-positive-color); }
+        .person-card[data-balance-type="positive"] .person-header { 
+            background: linear-gradient(135deg, var(--positive-header-start) 0%, var(--positive-header-end) 100%); 
+        }
+        
+        .person-card[data-balance-type="positive"] .person-header:hover { 
+            background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%); 
+        }
+        
+        .person-card[data-balance-type="positive"] .person-balance { 
+            color: var(--balance-positive-color); 
+        }
 
-        .person-card[data-balance-type="negative"] .person-header { background: linear-gradient(135deg, var(--negative-header-start) 0%, var(--negative-header-end) 100%); }
-        .person-card[data-balance-type="negative"] .person-header:hover { background: linear-gradient(135deg, #009688 0%, #82b535 100%); }
-        .person-card[data-balance-type="negative"] .person-balance { color: var(--balance-negative-color); }
+        .person-card[data-balance-type="negative"] .person-header { 
+            background: linear-gradient(135deg, var(--negative-header-start) 0%, var(--negative-header-end) 100%); 
+        }
+        
+        .person-card[data-balance-type="negative"] .person-header:hover { 
+            background: linear-gradient(135deg, #009688 0%, #82b535 100%); 
+        }
+        
+        .person-card[data-balance-type="negative"] .person-balance { 
+            color: var(--balance-negative-color); 
+        }
 
-        .person-header { padding: 20px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: all 0.3s; }
-        .person-info h3 { color: white; margin-bottom: 5px; font-size: 1.2em; }
-        .person-balance { font-size: 1.3em; font-weight: bold; }
-        .person-content { max-height: 0; overflow: hidden; transition: max-height 0.3s ease; background: #f8f9ff; }
-        .person-content.active { max-height: 800px; }
-        .person-inner { padding: 20px; }
+        .person-header { 
+            padding: 20px; 
+            cursor: pointer; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            transition: all 0.3s; 
+        }
+        
+        .person-info h3 { 
+            color: white; 
+            margin-bottom: 5px; 
+            font-size: 1.2em; 
+        }
+        
+        .person-balance { 
+            font-size: 1.3em; 
+            font-weight: bold; 
+        }
+        
+        .person-content { 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.3s ease; 
+            background: #f8f9ff; 
+        }
+        
+        .person-content.active { 
+            max-height: 800px; 
+        }
+        
+        .person-inner { 
+            padding: 20px; 
+        }
 
-        /* OPPDATERING TIL ACTION BUTTONS: 2 kolonner som standard for bedre mobil UX */
         .action-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* 2 kolonner */
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-bottom: 15px;
         }
 
-        .btn-sms { background: var(--action-sms); color: white; }
-        .btn-sms:hover { background: #20bd5a; }
-
-        /* NY TRANSITION KNAP */
-        .btn-transaction { background: var(--action-transaction); color: white; }
-        .btn-transaction:hover { background: #1997e6; }
-
-        .btn-paid { background: var(--action-cleared-positive); color: white; }
-        .btn-cleared { background: var(--action-cleared-negative); color: white; }
-        .btn-paid:hover { background: #45a049; }
-        .btn-cleared:hover { background: #e64a19; }
+        .btn-sms { 
+            background: var(--action-sms); 
+            color: white; 
+        }
         
-        .btn-delete { background: var(--action-delete); color: white; }
-        .btn-delete:hover { background: #da190b; }
+        .btn-sms:hover { 
+            background: #20bd5a; 
+        }
 
-        .history-section { margin-top: 20px; padding-top: 20px; border-top: 2px solid #ddd; }
-        .history-section h4 { color: var(--primary-color); margin-bottom: 10px; }
+        .btn-transaction { 
+            background: var(--action-transaction); 
+            color: white; 
+        }
+        
+        .btn-transaction:hover { 
+            background: #1997e6; 
+        }
 
-        .history-item { background: white; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.1); font-size: 0.9em;}
+        .btn-paid { 
+            background: var(--action-cleared-positive); 
+            color: white; 
+        }
         
-        .history-item.payment { border-left: 5px solid var(--action-transaction); } /* Bruger nu transaktionsfarve */
-        .history-item.initial { border-left: 5px solid var(--primary-color); }
-        .history-item.cleared { border-left: 5px solid var(--action-cleared-negative); }
+        .btn-cleared { 
+            background: var(--action-cleared-negative); 
+            color: white; 
+        }
         
-        .history-item span { color: #666; }
-        .history-item strong { color: #333; }
+        .btn-paid:hover { 
+            background: #45a049; 
+        }
+        
+        .btn-cleared:hover { 
+            background: #e64a19; 
+        }
+        
+        .btn-delete { 
+            background: var(--action-delete); 
+            color: white; 
+        }
+        
+        .btn-delete:hover { 
+            background: #da190b; 
+        }
+
+        .history-section { 
+            margin-top: 20px; 
+            padding-top: 20px; 
+            border-top: 2px solid #ddd; 
+        }
+        
+        .history-section h4 { 
+            color: var(--primary-color); 
+            margin-bottom: 10px; 
+        }
+
+        .history-item { 
+            background: white; 
+            padding: 10px; 
+            border-radius: 8px; 
+            margin-bottom: 8px; 
+            display: flex; 
+            justify-content: space-between; 
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
+            font-size: 0.9em;
+        }
+        
+        .history-item.payment { 
+            border-left: 5px solid var(--action-transaction); 
+        }
+        
+        .history-item.initial { 
+            border-left: 5px solid var(--primary-color); 
+        }
+        
+        .history-item.cleared { 
+            border-left: 5px solid var(--action-cleared-negative); 
+        }
+        
+        .history-item span { 
+            color: #666; 
+        }
+        
+        .history-item strong { 
+            color: #333; 
+        }
 
         /* MODAL */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: white; padding: 30px; border-radius: 15px; max-width: 400px; width: 90%; }
-        .modal-content h3 { color: var(--primary-color); margin-bottom: 20px; }
-        .modal-buttons { display: flex; gap: 10px; margin-top: 20px; }
-        .btn-confirm { background: var(--action-cleared-positive); color: white; flex: 1; }
-        .btn-cancel { background: var(--action-delete); color: white; flex: 1; }
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.5); 
+            z-index: 1000; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        
+        .modal.active { 
+            display: flex; 
+        }
+        
+        .modal-content { 
+            background: white; 
+            padding: 30px; 
+            border-radius: 15px; 
+            max-width: 400px; 
+            width: 90%; 
+        }
+        
+        .modal-content h3 { 
+            color: var(--primary-color); 
+            margin-bottom: 20px; 
+        }
+        
+        .modal-buttons { 
+            display: flex; 
+            gap: 10px; 
+            margin-top: 20px; 
+        }
+        
+        .btn-confirm { 
+            background: var(--action-cleared-positive); 
+            color: white; 
+            flex: 1; 
+        }
+        
+        .btn-cancel { 
+            background: var(--action-delete); 
+            color: white; 
+            flex: 1; 
+        }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .container { padding: 15px; }
-            h1 { font-size: 1.5em; }
-            .form-row { flex-direction: column; }
-            .form-row input { min-width: 100%; }
-            .action-buttons { grid-template-columns: 1fr 1fr; }
-            .total-amount { font-size: 28px; }
+            .container { 
+                padding: 15px; 
+            }
+            
+            h1 { 
+                font-size: 1.5em; 
+            }
+            
+            .form-row { 
+                flex-direction: column; 
+            }
+            
+            .form-row input { 
+                min-width: 100%; 
+            }
+            
+            .action-buttons { 
+                grid-template-columns: 1fr 1fr; 
+            }
+            
+            .total-amount { 
+                font-size: 28px; 
+            }
         }
     </style>
 </head>
@@ -235,16 +516,14 @@
         let currentPersonIndex = null;
         let openAccordionIndex = null;
         
-        // Formaterer datoen til DD-MM-YYYY
         function getFormattedDate() {
             const now = new Date();
             const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0'); // Måneder er 0-baseret
+            const month = String(now.getMonth() + 1).padStart(2, '0');
             const year = now.getFullYear();
             return `${day}-${month}-${year}`;
         }
 
-        // Formaterer tal til dansk valutaformat
         const currencyFormatter = new Intl.NumberFormat('da-DK', {
             style: 'currency',
             currency: 'DKK',
@@ -316,7 +595,6 @@
         function renderPeople() {
             const container = document.getElementById('peopleList');
             
-            // OPDATER TOTAL NETTO BALANCE
             const totalSection = document.getElementById('totalSection');
             const totalAmount = document.getElementById('totalAmount');
             const total = people.reduce((sum, person) => sum + person.balance, 0);
@@ -345,7 +623,6 @@
                 const balanceType = isPositive ? 'positive' : 'negative';
                 const clearButtonText = isPositive ? '✓ Saldo Nulstillet (Betalt til dig)' : '✓ Saldo Nulstillet (Udbetalt til person)';
                 const clearButtonClass = isPositive ? 'btn-paid' : 'btn-cleared';
-
 
                 return `
                     <div class="person-card" data-balance-type="${balanceType}">
@@ -403,14 +680,11 @@
             renderPeople();
         }
 
-        // --- Modals og Transaktioner ---
-        
         function closeModal(id) {
             document.getElementById(id).classList.remove('active');
             currentPersonIndex = null;
         }
 
-        // Åbner den nye UNIVERSAL TRANSAKTIONS MODAL
         function openTransactionModal(index) {
             currentPersonIndex = index;
             const person = people[index];
@@ -430,22 +704,18 @@
             }
             
             const person = people[currentPersonIndex];
-            
-            // Lægger beløbet til balancen. 
-            // Positivt tal øger saldoen (ny gæld). Negativt tal reducerer saldoen (betaling).
             person.balance += amount; 
             
             person.history.push({
                 date: getFormattedDate(),
                 amount: amount, 
-                type: 'transaction' // Ny type, dækker både ny gæld og betaling
+                type: 'transaction'
             });
 
             saveData();
             renderPeople();
             closeModal('transactionModal');
         }
-
 
         function clearBalance(index) {
             const person = people[index];
@@ -455,7 +725,6 @@
                 `Marker at du har betalt ${person.name} tilbage for ${currencyFormatter.format(Math.abs(person.balance))})?`;
 
             if (confirm(confirmationText)) {
-                // Beregn beløbet, der skal tilføjes for at nulstille. Dvs. det modsatte af nuværende saldo.
                 const clearedAmount = -person.balance; 
                 
                 person.balance = 0;
@@ -501,23 +770,18 @@
             window.location.href = `sms:${person.phone}?body=${encodeURIComponent(message)}`;
         }
 
-
-        // Enter key support for main form
         document.getElementById('startBalance').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addPerson();
             }
         });
         
-        // Enter key support for transaction modal
         document.getElementById('transactionAmount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 handleTransaction();
             }
         });
 
-
-        // Load data on startup
         loadData();
     </script>
 </body>
