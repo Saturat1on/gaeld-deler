@@ -23,7 +23,7 @@
             margin: 0 auto;
             background: white;
             border-radius: 20px;
-            padding: 30px;
+            padding: 20px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
@@ -31,20 +31,57 @@
             color: #667eea;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 2.5em;
+            font-size: 2em;
         }
 
+        /* SENDER SECTION - COLLAPSIBLE */
         .sender-section {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px;
             border-radius: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .sender-header {
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             color: white;
         }
 
-        .sender-section h2 {
-            margin-bottom: 15px;
-            font-size: 1.3em;
+        .sender-header:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .sender-header h2 {
+            font-size: 1.2em;
+            margin: 0;
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            transition: transform 0.3s;
+        }
+
+        .arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .sender-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .sender-content.active {
+            max-height: 300px;
+        }
+
+        .sender-inner {
+            padding: 0 20px 20px 20px;
+            color: white;
         }
 
         .input-group {
@@ -65,29 +102,37 @@
             font-size: 1em;
         }
 
+        /* FORM SECTION - MOBILE OPTIMIZED */
         .form-section {
             background: #f8f9ff;
-            padding: 25px;
+            padding: 20px;
             border-radius: 15px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             border: 2px solid #667eea;
         }
 
         .form-section h2 {
             color: #667eea;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            font-size: 1.2em;
         }
 
-        .form-row {
+        /* MOBILE FRIENDLY LAYOUT */
+        .form-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
             gap: 10px;
-            margin-bottom: 15px;
+        }
+
+        @media (min-width: 600px) {
+            .form-grid {
+                grid-template-columns: 1fr 1fr;
+            }
         }
 
         input[type="text"],
         input[type="tel"],
         input[type="number"] {
+            width: 100%;
             padding: 12px;
             border: 2px solid #ddd;
             border-radius: 8px;
@@ -101,28 +146,30 @@
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        button {
+        .add-button {
+            width: 100%;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 12px 25px;
+            padding: 14px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 1em;
+            font-size: 1.1em;
             font-weight: 600;
             transition: all 0.3s;
+            margin-top: 10px;
         }
 
-        button:hover {
+        .add-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        button:active {
+        .add-button:active {
             transform: translateY(0);
         }
 
-        /* ACCORDION DESIGN */
+        /* PERSON CARDS */
         .person-card {
             background: white;
             border: 2px solid #e0e0e0;
@@ -151,13 +198,13 @@
         }
 
         .person-name {
-            font-size: 1.3em;
+            font-size: 1.2em;
             font-weight: 600;
             color: #333;
         }
 
         .person-debt {
-            font-size: 1.5em;
+            font-size: 1.3em;
             font-weight: 700;
             color: #667eea;
         }
@@ -196,7 +243,7 @@
 
         .button-group {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: 1fr 1fr;
             gap: 10px;
             margin-top: 20px;
         }
@@ -208,6 +255,7 @@
             cursor: pointer;
             font-weight: 600;
             transition: all 0.3s;
+            font-size: 0.95em;
         }
 
         .btn-sms {
@@ -230,7 +278,7 @@
             color: white;
         }
 
-        /* Modal */
+        /* MODAL */
         .modal {
             display: none;
             position: fixed;
@@ -284,30 +332,35 @@
     <div class="container">
         <h1>💰 Gælds Tracker</h1>
 
-        <!-- Sender Info Section -->
+        <!-- COLLAPSIBLE Sender Info Section -->
         <div class="sender-section">
-            <h2>📱 Dine Oplysninger</h2>
-            <div class="input-group">
-                <label>Dit Telefonnummer (til SMS afsender):</label>
-                <input type="tel" id="senderPhone" placeholder="12345678">
+            <div class="sender-header" onclick="toggleSender()">
+                <h2>📱 Dine Oplysninger</h2>
+                <span class="arrow" id="senderArrow">▼</span>
             </div>
-            <div class="input-group">
-                <label>Dit Revolut Link:</label>
-                <input type="text" id="revolutLink" placeholder="https://revolut.me/ditbrugernavn">
+            <div class="sender-content" id="senderContent">
+                <div class="sender-inner">
+                    <div class="input-group">
+                        <label>Dit Telefonnummer (til SMS afsender):</label>
+                        <input type="tel" id="senderPhone" placeholder="12345678">
+                    </div>
+                    <div class="input-group">
+                        <label>Dit Revolut Link:</label>
+                        <input type="text" id="revolutLink" placeholder="https://revolut.me/ditbrugernavn">
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- Add Person Form -->
+        <!-- Add Person Form - MOBILE OPTIMIZED -->
         <div class="form-section">
             <h2>➕ Tilføj Ny Person</h2>
-            <div class="form-row">
+            <div class="form-grid">
                 <input type="text" id="personName" placeholder="Navn">
                 <input type="tel" id="personPhone" placeholder="Telefon">
-            </div>
-            <div class="form-row">
                 <input type="number" id="startBalance" placeholder="Start beløb (kr)">
-                <button onclick="addPerson()">Tilføj</button>
             </div>
+            <button class="add-button" onclick="addPerson()">Tilføj Person</button>
         </div>
 
         <!-- People List -->
@@ -331,6 +384,22 @@
         let people = [];
         let currentPersonIndex = null;
         let openPersonIndex = null;
+        let senderOpen = false;
+
+        // Toggle sender section
+        function toggleSender() {
+            senderOpen = !senderOpen;
+            const content = document.getElementById('senderContent');
+            const arrow = document.getElementById('senderArrow');
+            
+            if (senderOpen) {
+                content.classList.add('active');
+                arrow.classList.add('rotated');
+            } else {
+                content.classList.remove('active');
+                arrow.classList.remove('rotated');
+            }
+        }
 
         // Load data from localStorage
         function loadData() {
@@ -424,7 +493,7 @@
                             </div>
                             
                             <div class="button-group">
-                                <button class="btn-action btn-sms" onclick="sendSMS(${index})">📱 Send SMS</button>
+                                <button class="btn-action btn-sms" onclick="sendSMS(${index})">📱 SMS</button>
                                 <button class="btn-action btn-paid" onclick="markPaid(${index})">✅ Betalt</button>
                                 <button class="btn-action btn-partial" onclick="openPartialModal(${index})">💰 Delvis</button>
                                 <button class="btn-action btn-delete" onclick="deletePerson(${index})">🗑️ Slet</button>
