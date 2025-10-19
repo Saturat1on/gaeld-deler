@@ -2,239 +2,235 @@
 <html lang="da">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>💸 Gæld Deler</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gælds App</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            padding-bottom: 100px;
         }
 
         .container {
-            max-width: 500px;
+            max-width: 800px;
             margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
         h1 {
-            color: white;
+            color: #667eea;
             text-align: center;
             margin-bottom: 30px;
-            font-size: 32px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-size: 2.5em;
         }
 
-        .input-section {
-            background: white;
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
-            margin-bottom: 25px;
+        .sender-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            color: white;
+        }
+
+        .sender-section h2 {
+            margin-bottom: 15px;
+            font-size: 1.3em;
         }
 
         .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+        }
+
+        .form-section {
+            background: #f8f9ff;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid #667eea;
+        }
+
+        .form-section h2 {
+            color: #667eea;
             margin-bottom: 20px;
         }
 
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: #333;
-            font-weight: 600;
-            font-size: 14px;
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         input[type="text"],
         input[type="tel"],
         input[type="number"] {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
             transition: all 0.3s;
-            background: #f8f9fa;
         }
 
-        input[type="text"]:focus,
-        input[type="tel"]:focus,
-        input[type="number"]:focus {
+        input:focus {
             outline: none;
             border-color: #667eea;
-            background: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: 12px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary {
+        button {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-
-        .person-card {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
             transition: all 0.3s;
         }
 
-        .person-card:active {
-            transform: scale(0.98);
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        /* ACCORDION DESIGN */
+        .person-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .person-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.2);
         }
 
         .person-header {
+            padding: 20px;
+            cursor: pointer;
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 15px;
+            align-items: center;
+            background: #f8f9ff;
         }
 
-        .person-info {
-            flex: 1;
+        .person-header:hover {
+            background: #f0f2ff;
         }
 
         .person-name {
-            font-size: 20px;
-            font-weight: 700;
+            font-size: 1.3em;
+            font-weight: 600;
             color: #333;
-            margin-bottom: 5px;
         }
 
-        .person-phone {
-            font-size: 14px;
-            color: #666;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .person-balance {
-            font-size: 24px;
+        .person-debt {
+            font-size: 1.5em;
             font-weight: 700;
-            padding: 8px 16px;
-            border-radius: 8px;
+            color: #667eea;
         }
 
-        .balance-positive {
-            color: #10b981;
-            background: #d1fae5;
+        .person-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background: white;
         }
 
-        .balance-zero {
-            color: #6b7280;
-            background: #f3f4f6;
+        .person-details.active {
+            max-height: 500px;
         }
 
-        .person-actions {
+        .person-content {
+            padding: 20px;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .info-label {
+            color: #666;
+            font-weight: 600;
+        }
+
+        .info-value {
+            color: #333;
+        }
+
+        .button-group {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(2, 1fr);
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
 
         .btn-action {
             padding: 12px;
             border: none;
-            border-radius: 10px;
-            font-size: 14px;
-            font-weight: 600;
+            border-radius: 8px;
             cursor: pointer;
+            font-weight: 600;
             transition: all 0.3s;
         }
 
-        .btn-add {
-            background: #10b981;
-            color: white;
-        }
-
-        .btn-add:active {
-            transform: scale(0.95);
-            background: #059669;
-        }
-
-        .btn-pay {
-            background: #3b82f6;
-            color: white;
-        }
-
-        .btn-pay:active {
-            transform: scale(0.95);
-            background: #2563eb;
-        }
-
-        .btn-edit {
-            background: #f59e0b;
-            color: white;
-        }
-
-        .btn-edit:active {
-            transform: scale(0.95);
-            background: #d97706;
-        }
-
         .btn-sms {
-            background: #8b5cf6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
 
-        .btn-sms:active {
-            transform: scale(0.95);
-            background: #7c3aed;
-        }
-
-        .btn-history {
-            background: #06b6d4;
+        .btn-paid {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
             color: white;
-        }
-
-        .btn-history:active {
-            transform: scale(0.95);
-            background: #0891b2;
         }
 
         .btn-delete {
-            grid-column: 1 / -1;
-            background: #6b7280;
+            background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
             color: white;
-            margin-top: 5px;
         }
 
-        .btn-delete:active {
-            transform: scale(0.95);
-            background: #4b5563;
+        .btn-partial {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
         }
 
+        /* Modal */
         .modal {
             display: none;
             position: fixed;
@@ -242,44 +238,27 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.7);
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
             z-index: 1000;
-            animation: fadeIn 0.3s;
-            overflow-y: auto;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+        .modal.active {
+            display: flex;
         }
 
         .modal-content {
-            position: relative;
-            margin: 50px auto;
             background: white;
             padding: 30px;
-            border-radius: 20px;
-            width: 90%;
+            border-radius: 15px;
             max-width: 400px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            animation: slideUp 0.3s;
+            width: 90%;
         }
 
-        @keyframes slideUp {
-            from {
-                transform: translateY(-20px);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .modal h2 {
+        .modal-content h3 {
             margin-bottom: 20px;
-            color: #333;
-            font-size: 24px;
+            color: #667eea;
         }
 
         .modal-buttons {
@@ -289,469 +268,256 @@
             margin-top: 20px;
         }
 
-        .btn-cancel {
-            background: #6b7280;
-            color: white;
-        }
-
-        .btn-confirm {
-            background: #667eea;
-            color: white;
-        }
-
-        .history-item {
-            padding: 15px;
-            background: #f8f9fa;
-            border-radius: 10px;
-            margin-bottom: 10px;
-            border-left: 4px solid #667eea;
-        }
-
-        .history-date {
-            font-size: 12px;
-            color: #6b7280;
-            margin-bottom: 5px;
-        }
-
-        .history-text {
-            color: #333;
-            font-weight: 500;
-        }
-
         .empty-state {
             text-align: center;
             padding: 60px 20px;
-            color: white;
+            color: #999;
         }
 
-        .empty-state-icon {
-            font-size: 64px;
-            margin-bottom: 20px;
-            opacity: 0.8;
-        }
-
-        .empty-state-text {
-            font-size: 18px;
-            opacity: 0.9;
-        }
-
-        @media (max-width: 480px) {
-            body {
-                padding: 15px;
-                padding-bottom: 80px;
-            }
-
-            h1 {
-                font-size: 28px;
-                margin-bottom: 20px;
-            }
-
-            .input-section {
-                padding: 20px;
-            }
-
-            .person-card {
-                padding: 15px;
-            }
-
-            .person-actions {
-                grid-template-columns: 1fr;
-            }
+        .empty-state h3 {
+            font-size: 1.5em;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>💸 Gæld Deler</h1>
-        
-        <!-- TOTAL OVERSIGT -->
-        <div id="totalSection" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; border-radius: 15px; margin-bottom: 25px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: none;">
-            <div style="color: rgba(255,255,255,0.9); font-size: 14px; margin-bottom: 5px;">💵 Total udlånt</div>
-            <div id="totalAmount" style="color: white; font-size: 32px; font-weight: bold;">0 kr</div>
+        <h1>💰 Gælds Tracker</h1>
+
+        <!-- Sender Info Section -->
+        <div class="sender-section">
+            <h2>📱 Dine Oplysninger</h2>
+            <div class="input-group">
+                <label>Dit Telefonnummer (til SMS afsender):</label>
+                <input type="tel" id="senderPhone" placeholder="12345678">
+            </div>
+            <div class="input-group">
+                <label>Dit Revolut Link:</label>
+                <input type="text" id="revolutLink" placeholder="https://revolut.me/ditbrugernavn">
+            </div>
         </div>
 
-        <!-- Input Section -->
-        <div class="input-section">
-            <div class="input-group">
-                <label for="personName">👤 Persons navn</label>
-                <input type="text" id="personName" placeholder="Indtast navn...">
+        <!-- Add Person Form -->
+        <div class="form-section">
+            <h2>➕ Tilføj Ny Person</h2>
+            <div class="form-row">
+                <input type="text" id="personName" placeholder="Navn">
+                <input type="tel" id="personPhone" placeholder="Telefon">
             </div>
-            
-            <div class="input-group">
-                <label for="personPhone">📱 Telefonnummer (valgfrit)</label>
-                <input type="tel" id="personPhone" placeholder="12345678">
+            <div class="form-row">
+                <input type="number" id="startBalance" placeholder="Start beløb (kr)">
+                <button onclick="addPerson()">Tilføj</button>
             </div>
-            
-            <div class="input-group">
-                <label for="startBalance">💰 Startbeløb (kr)</label>
-                <input type="number" id="startBalance" placeholder="0" step="0.01">
-            </div>
-            
-            <button class="btn btn-primary" onclick="addPerson()">
-                ➕ Tilføj Person
-            </button>
         </div>
 
         <!-- People List -->
         <div id="peopleList"></div>
     </div>
 
-    <!-- Modal for Amount Input -->
-    <div id="amountModal" class="modal">
+    <!-- Partial Payment Modal -->
+    <div id="partialModal" class="modal">
         <div class="modal-content">
-            <h2 id="modalTitle">Indtast beløb</h2>
-            <div class="input-group">
-                <label for="modalAmount">Beløb (kr)</label>
-                <input type="number" id="modalAmount" placeholder="0" step="0.01">
-            </div>
+            <h3>💰 Delvis Betaling</h3>
+            <p id="modalPersonName"></p>
+            <input type="number" id="modalAmount" placeholder="Beløb betalt">
             <div class="modal-buttons">
-                <button class="btn btn-action btn-cancel" onclick="closeModal()">Annuller</button>
-                <button class="btn btn-action btn-confirm" onclick="confirmAmount()">Bekræft</button>
+                <button class="btn-action btn-paid" onclick="confirmAmount()">Bekræft</button>
+                <button class="btn-action btn-delete" onclick="closeModal()">Annuller</button>
             </div>
-        </div>
-    </div>
-
-    <!-- Modal for Delete Confirmation -->
-    <div id="deleteModal" class="modal">
-        <div class="modal-content">
-            <h2>Slet person?</h2>
-            <p style="color: #666; margin-bottom: 20px;">Er du sikker på at du vil slette denne person?</p>
-            <div class="modal-buttons">
-                <button class="btn btn-action btn-cancel" onclick="closeDeleteModal()">Annuller</button>
-                <button class="btn btn-action btn-delete" onclick="confirmDelete()">Slet</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for Edit Person -->
-    <div id="editModal" class="modal">
-        <div class="modal-content">
-            <h2>✏️ Rediger person</h2>
-            <div class="input-group">
-                <label for="editName">👤 Navn</label>
-                <input type="text" id="editName">
-            </div>
-            <div class="input-group">
-                <label for="editPhone">📱 Telefonnummer</label>
-                <input type="tel" id="editPhone">
-            </div>
-            <div class="modal-buttons">
-                <button class="btn btn-action btn-cancel" onclick="closeEditModal()">Annuller</button>
-                <button class="btn btn-action btn-confirm" onclick="confirmEdit()">Gem</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Modal for History -->
-    <div id="historyModal" class="modal">
-        <div class="modal-content">
-            <h2>📜 Historik</h2>
-            <div id="historyContent" style="max-height: 400px; overflow-y: auto; margin: 20px 0;">
-                <!-- History items will be inserted here -->
-            </div>
-            <button class="btn btn-action btn-cancel" onclick="closeHistoryModal()" style="width: 100%;">Luk</button>
         </div>
     </div>
 
     <script>
         let people = [];
-        let currentAction = null;
         let currentPersonIndex = null;
-        let editingPersonIndex = null;
+        let openPersonIndex = null;
 
         // Load data from localStorage
         function loadData() {
-            const saved = localStorage.getItem('gaeldDeler');
+            const saved = localStorage.getItem('debtData');
             if (saved) {
                 people = JSON.parse(saved);
-                renderPeople();
             }
+            
+            const senderPhone = localStorage.getItem('senderPhone');
+            const revolutLink = localStorage.getItem('revolutLink');
+            
+            if (senderPhone) document.getElementById('senderPhone').value = senderPhone;
+            if (revolutLink) document.getElementById('revolutLink').value = revolutLink;
+            
+            renderPeople();
         }
 
         // Save data to localStorage
         function saveData() {
-            localStorage.setItem('gaeldDeler', JSON.stringify(people));
+            localStorage.setItem('debtData', JSON.stringify(people));
+            localStorage.setItem('senderPhone', document.getElementById('senderPhone').value);
+            localStorage.setItem('revolutLink', document.getElementById('revolutLink').value);
         }
 
-        // Beregn og vis total udlånt
-        function updateTotalAmount() {
-            const total = people.reduce((sum, person) => sum + person.balance, 0);
-            const totalSection = document.getElementById('totalSection');
-            const totalAmount = document.getElementById('totalAmount');
-            
-            if (total > 0) {
-                totalSection.style.display = 'block';
-                totalAmount.textContent = total.toFixed(2).replace('.', ',') + ' kr';
-            } else {
-                totalSection.style.display = 'none';
-            }
-        }
-
-        // Add new person
         function addPerson() {
-            const nameInput = document.getElementById('personName');
-            const phoneInput = document.getElementById('personPhone');
-            const balanceInput = document.getElementById('startBalance');
-            
-            const name = nameInput.value.trim();
-            const phone = phoneInput.value.trim();
-            const balance = parseFloat(balanceInput.value) || 0;
-            
-            if (!name) {
-                alert('Indtast venligst et navn');
+            const name = document.getElementById('personName').value.trim();
+            const phone = document.getElementById('personPhone').value.trim();
+            const balance = parseFloat(document.getElementById('startBalance').value) || 0;
+
+            if (!name || !phone) {
+                alert('Udfyld navn og telefon!');
                 return;
             }
-            
+
             people.push({
                 name: name,
                 phone: phone,
                 balance: balance,
-                history: []
+                history: [{
+                    date: new Date().toLocaleString('da-DK'),
+                    amount: balance,
+                    type: 'start'
+                }]
             });
-            
-            nameInput.value = '';
-            phoneInput.value = '';
-            balanceInput.value = '';
-            
+
+            document.getElementById('personName').value = '';
+            document.getElementById('personPhone').value = '';
+            document.getElementById('startBalance').value = '';
+
             saveData();
             renderPeople();
         }
 
-        // Render all people
+        function togglePerson(index) {
+            if (openPersonIndex === index) {
+                openPersonIndex = null;
+            } else {
+                openPersonIndex = index;
+            }
+            renderPeople();
+        }
+
         function renderPeople() {
-            updateTotalAmount();
-            
             const container = document.getElementById('peopleList');
             
             if (people.length === 0) {
                 container.innerHTML = `
                     <div class="empty-state">
-                        <div class="empty-state-icon">👥</div>
-                        <div class="empty-state-text">Ingen personer endnu<br>Tilføj din første person ovenfor</div>
+                        <h3>Ingen personer endnu</h3>
+                        <p>Tilføj en person for at komme i gang</p>
                     </div>
                 `;
                 return;
             }
-            
+
             container.innerHTML = people.map((person, index) => `
                 <div class="person-card">
-                    <div class="person-header">
-                        <div class="person-info">
-                            <div class="person-name">${person.name}</div>
-                            ${person.phone ? `<div class="person-phone">📱 ${person.phone}</div>` : ''}
-                        </div>
-                        <div class="person-balance ${person.balance > 0 ? 'balance-positive' : 'balance-zero'}">
-                            ${person.balance.toFixed(2).replace('.', ',')} kr
-                        </div>
+                    <div class="person-header" onclick="togglePerson(${index})">
+                        <div class="person-name">${person.name}</div>
+                        <div class="person-debt">${person.balance.toFixed(2)} kr</div>
                     </div>
-                    <div class="person-actions">
-                        <button class="btn-action btn-add" onclick="openModal(${index}, 'add')">
-                            ➕ Gæld
-                        </button>
-                        <button class="btn-action btn-pay" onclick="openModal(${index}, 'pay')">
-                            💰 Betaling
-                        </button>
-                        <button class="btn-action btn-edit" onclick="openEditModal(${index})">
-                            ✏️ Rediger
-                        </button>
-                        ${person.phone && person.balance > 0 ? `
-                        <button class="btn-action btn-sms" onclick="sendReminder(${index})">
-                            💬 SMS
-                        </button>
-                        ` : '<div></div>'}
-                        <button class="btn-action btn-history" onclick="openHistoryModal(${index})">
-                            📜 Historik
-                        </button>
-                        <button class="btn-action btn-delete" onclick="openDeleteModal(${index})">
-                            🗑️ Slet
-                        </button>
+                    <div class="person-details ${openPersonIndex === index ? 'active' : ''}">
+                        <div class="person-content">
+                            <div class="info-row">
+                                <span class="info-label">Telefon:</span>
+                                <span class="info-value">${person.phone}</span>
+                            </div>
+                            <div class="info-row">
+                                <span class="info-label">Gæld:</span>
+                                <span class="info-value">${person.balance.toFixed(2)} kr</span>
+                            </div>
+                            
+                            <div class="button-group">
+                                <button class="btn-action btn-sms" onclick="sendSMS(${index})">📱 Send SMS</button>
+                                <button class="btn-action btn-paid" onclick="markPaid(${index})">✅ Betalt</button>
+                                <button class="btn-action btn-partial" onclick="openPartialModal(${index})">💰 Delvis</button>
+                                <button class="btn-action btn-delete" onclick="deletePerson(${index})">🗑️ Slet</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             `).join('');
         }
 
-        // Open amount modal
-        function openModal(index, action) {
-            currentPersonIndex = index;
-            currentAction = action;
-            
-            const modal = document.getElementById('amountModal');
-            const title = document.getElementById('modalTitle');
-            const input = document.getElementById('modalAmount');
-            
-            title.textContent = action === 'add' ? '➕ Tilføj gæld' : '💰 Registrer betaling';
-            input.value = '';
-            input.focus();
-            
-            modal.style.display = 'block';
+        function sendSMS(index) {
+            const person = people[index];
+            const senderPhone = document.getElementById('senderPhone').value.trim();
+            const revolutLink = document.getElementById('revolutLink').value.trim();
+
+            if (!senderPhone) {
+                alert('Indtast dit telefonnummer først!');
+                return;
+            }
+
+            const message = `Hej ${person.name}! Du skylder mig ${person.balance.toFixed(2)} kr.
+
+Betal via:
+📱 MobilePay: ${senderPhone}
+💳 Revolut: ${revolutLink || '[indsæt link]'}
+
+Kan ikke hele beløbet? Send hvad du kan!
+Tak :-)`;
+
+            window.location.href = `sms:${person.phone}?body=${encodeURIComponent(message)}`;
         }
 
-        // Close amount modal
+        function markPaid(index) {
+            if (confirm(`Marker ${people[index].name} som fuldt betalt?`)) {
+                people[index].balance = 0;
+                people[index].history.push({
+                    date: new Date().toLocaleString('da-DK'),
+                    amount: 0,
+                    type: 'paid'
+                });
+                saveData();
+                renderPeople();
+            }
+        }
+
+        function openPartialModal(index) {
+            currentPersonIndex = index;
+            document.getElementById('modalPersonName').textContent = 
+                `${people[index].name} skylder: ${people[index].balance.toFixed(2)} kr`;
+            document.getElementById('modalAmount').value = '';
+            document.getElementById('partialModal').classList.add('active');
+            document.getElementById('modalAmount').focus();
+        }
+
         function closeModal() {
-            document.getElementById('amountModal').style.display = 'none';
-            currentAction = null;
+            document.getElementById('partialModal').classList.remove('active');
             currentPersonIndex = null;
         }
 
-        // Confirm amount
         function confirmAmount() {
-            const input = document.getElementById('modalAmount');
-            const amount = parseFloat(input.value);
+            const amount = parseFloat(document.getElementById('modalAmount').value);
             
             if (isNaN(amount) || amount <= 0) {
-                alert('Indtast venligst et gyldigt beløb');
+                alert('Indtast et gyldigt beløb!');
                 return;
             }
-            
-            const person = people[currentPersonIndex];
-            const date = new Date().toLocaleString('da-DK');
-            
-            if (currentAction === 'add') {
-                person.balance += amount;
-                person.history.unshift({
-                    date: date,
-                    type: 'add',
-                    amount: amount,
-                    text: `Tilføjet gæld: ${amount.toFixed(2)} kr`
-                });
-            } else {
-                person.balance -= amount;
-                person.history.unshift({
-                    date: date,
-                    type: 'pay',
-                    amount: amount,
-                    text: `Betaling modtaget: ${amount.toFixed(2)} kr`
-                });
+
+            if (amount > people[currentPersonIndex].balance) {
+                alert('Beløbet er større end gælden!');
+                return;
             }
-            
+
+            people[currentPersonIndex].balance -= amount;
+            people[currentPersonIndex].history.push({
+                date: new Date().toLocaleString('da-DK'),
+                amount: amount,
+                type: 'partial'
+            });
+
             saveData();
             renderPeople();
             closeModal();
         }
 
-        // Open edit modal
-        function openEditModal(index) {
-            editingPersonIndex = index;
-            const person = people[index];
-            
-            document.getElementById('editName').value = person.name;
-            document.getElementById('editPhone').value = person.phone || '';
-            document.getElementById('editModal').style.display = 'block';
-        }
-
-        // Close edit modal
-        function closeEditModal() {
-            document.getElementById('editModal').style.display = 'none';
-            editingPersonIndex = null;
-        }
-
-        // Confirm edit
-        function confirmEdit() {
-            const name = document.getElementById('editName').value.trim();
-            const phone = document.getElementById('editPhone').value.trim();
-            
-            if (!name) {
-                alert('Navn må ikke være tomt');
-                return;
-            }
-            
-            people[editingPersonIndex].name = name;
-            people[editingPersonIndex].phone = phone;
-            
-            saveData();
-            renderPeople();
-            closeEditModal();
-        }
-
-        // Send SMS reminder
-        function sendReminder(index) {
-            const person = people[index];
-            const amount = person.balance.toFixed(2).replace('.', ',');
-            const message = `Hej ${person.name}! 😊 Du skylder ${amount} kr. Betal hvad du kan - selv små beløb hjælper! 💚 Revolut: https://revolut.me/saturat1on`;
-            const smsUrl = `sms:${person.phone}&body=${encodeURIComponent(message)}`;
-            window.location.href = smsUrl;
-        }
-
-        // Open history modal
-        function openHistoryModal(index) {
-            currentPersonIndex = index;
-            const person = people[index];
-            const content = document.getElementById('historyContent');
-            
-            if (!person.history || person.history.length === 0) {
-                content.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 40px 20px;">Ingen historik endnu</p>';
-            } else {
-                content.innerHTML = person.history.map(item => `
-                    <div class="history-item">
-                        <div class="history-date">${item.date}</div>
-                        <div class="history-text">${item.text}</div>
-                    </div>
-                `).join('');
-            }
-            
-            document.getElementById('historyModal').style.display = 'block';
-        }
-
-        // Close history modal
-        function closeHistoryModal() {
-            document.getElementById('historyModal').style.display = 'none';
-            currentPersonIndex = null;
-        }
-
-        // Open delete modal
-        function openDeleteModal(index) {
-            currentPersonIndex = index;
-            document.getElementById('deleteModal').style.display = 'block';
-        }
-
-        // Close delete modal
-        function closeDeleteModal() {
-            document.getElementById('deleteModal').style.display = 'none';
-            currentPersonIndex = null;
-        }
-
-        // Confirm delete
-        function confirmDelete() {
-            people.splice(currentPersonIndex, 1);
-            saveData();
-            renderPeople();
-            closeDeleteModal();
-        }
-
-        // Close modals on outside click
-        window.onclick = function(event) {
-            const amountModal = document.getElementById('amountModal');
-            const deleteModal = document.getElementById('deleteModal');
-            const editModal = document.getElementById('editModal');
-            const historyModal = document.getElementById('historyModal');
-            
-            if (event.target === amountModal) {
-                closeModal();
-            }
-            if (event.target === deleteModal) {
-                closeDeleteModal();
-            }
-            if (event.target === editModal) {
-                closeEditModal();
-            }
-            if (event.target === historyModal) {
-                closeHistoryModal();
+        function deletePerson(index) {
+            if (confirm(`Slet ${people[index].name}?`)) {
+                people.splice(index, 1);
+                saveData();
+                renderPeople();
             }
         }
 
-        // Handle Enter key in inputs
-        document.getElementById('personName').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('personPhone').focus();
-            }
-        });
-
-        document.getElementById('personPhone').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                document.getElementById('startBalance').focus();
-            }
-        });
-
+        // Enter key support
         document.getElementById('startBalance').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 addPerson();
