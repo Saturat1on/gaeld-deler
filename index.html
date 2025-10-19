@@ -114,17 +114,12 @@
         .person-content.active { max-height: 800px; }
         .person-inner { padding: 20px; }
 
+        /* OPPDATERING TIL ACTION BUTTONS: 2 kolonner som standard */
         .action-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr; /* To kolonner */
+            grid-template-columns: 1fr 1fr; /* 2 kolonner på alle skærme */
             gap: 10px;
             margin-bottom: 15px;
-        }
-        /* Udvid til 3 kolonner ved større skærme, men hold 2 på mindre */
-        @media (min-width: 600px) {
-            .action-buttons {
-                grid-template-columns: 1fr 1fr 1fr;
-            }
         }
 
         .btn-sms { background: var(--action-sms); color: white; }
@@ -172,6 +167,7 @@
             h1 { font-size: 1.5em; }
             .form-row { flex-direction: column; }
             .form-row input { min-width: 100%; }
+            /* Her er den vigtige ændring: Action buttons forbliver i 2 kolonner */
             .action-buttons { grid-template-columns: 1fr 1fr; }
             .total-amount { font-size: 28px; }
         }
@@ -516,8 +512,6 @@
             }
             
             // Trækker beløbet fra balancen.
-            // Hvis saldoen er positiv (gæld til dig), bliver den mindre positiv (eller negativ).
-            // Hvis saldoen er negativ (gæld fra dig), bliver den mindre negativ (eller positiv).
             person.balance -= amount;
             
             // Gemmer ændringen i historikken som et negativt tal (betaling fra/til dig)
