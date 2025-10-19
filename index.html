@@ -198,19 +198,37 @@
             border: 2px solid #e0e0e0;
             overflow: hidden;
         }
+        
+        /* Person Kort Farver */
+        /* Positiv Balance: Skylder dig penge (Lilla) */
+        .person-card[data-balance-type="positive"] .person-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .person-card[data-balance-type="positive"] .person-header:hover {
+            background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
+        }
+        .person-card[data-balance-type="positive"] .person-balance {
+            color: #ffd700; /* Guld */
+        }
+
+        /* Negativ Balance: Du skylder personen penge/har betalt for meget (Grøn) */
+        .person-card[data-balance-type="negative"] .person-header {
+            background: linear-gradient(135deg, #00b09b 0%, #96c93d 100%);
+        }
+        .person-card[data-balance-type="negative"] .person-header:hover {
+            background: linear-gradient(135deg, #009688 0%, #82b535 100%);
+        }
+        .person-card[data-balance-type="negative"] .person-balance {
+            color: #fff;
+        }
 
         .person-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 20px;
             cursor: pointer;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s;
-        }
-
-        .person-header:hover {
-            background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%);
         }
 
         .person-info h3 {
@@ -220,7 +238,6 @@
         }
 
         .person-balance {
-            color: #ffd700;
             font-size: 1.3em;
             font-weight: bold;
         }
@@ -260,9 +277,18 @@
             background: #4CAF50;
             color: white;
         }
+        
+        .btn-cleared { /* Ny knap for at rydde balancen */
+            background: #FF5722; /* Orange for klar-gæld/tilgodehavende */
+            color: white;
+        }
 
         .btn-paid:hover {
             background: #45a049;
+        }
+        
+        .btn-cleared:hover {
+            background: #e64a19;
         }
 
         .btn-partial {
@@ -302,6 +328,13 @@
             display: flex;
             justify-content: space-between;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .history-item.payment {
+             border-left: 5px solid #4CAF50;
+        }
+        .history-item.initial {
+             border-left: 5px solid #667eea;
         }
 
         /* MODAL */
@@ -385,13 +418,11 @@
     <div class="container">
         <h1>💰 Gælds Tracker</h1>
 
-        <!-- TOTAL UDLÅNT SEKTION -->
         <div id="totalSection" class="total-section">
-            <div class="total-label">💵 Total udlånt</div>
+            <div class="total-label">💵 Din Netto Balance (positiv = tilgodehavende)</div>
             <div id="totalAmount" class="total-amount">0 kr</div>
         </div>
 
-        <!-- COLLAPSIBLE Sender Info Section -->
         <div class="sender-section">
             <div class="sender-header" onclick="toggleSenderInfo()">
                 <h2>📱 Dine Oplysninger</h2>
@@ -411,33 +442,31 @@
             </div>
         </div>
 
-        <!-- Add New Person Form -->
         <div class="form-section">
             <h2>➕ Tilføj Ny Person</h2>
+            <p style="margin-bottom: 15px; font-size: 0.9em; color: #764ba2;">Brug **positivt** beløb for gæld til dig (f.eks. 100). Brug **negativt** beløb for tilgodehavende (f.eks. -100).</p>
             <div class="form-row">
                 <input type="text" id="personName" placeholder="Navn">
                 <input type="tel" id="personPhone" placeholder="Telefon">
             </div>
             <div class="form-row">
-                <input type="number" id="startBalance" placeholder="Start beløb (kr)" step="0.01">
+                <input type="number" id="startBalance" placeholder="Start beløb (kr) - Positiv/Negativ" step="0.01">
             </div>
             <button class="btn btn-add" onclick="addPerson()">Tilføj Person</button>
         </div>
 
-        <!-- People List -->
         <div id="peopleList"></div>
     </div>
 
-    <!-- Partial Payment Modal -->
     <div id="partialModal" class="modal">
         <div class="modal-content">
             <h3 id="modalPersonName"></h3>
             <div class="input-group">
-                <label>Beløb betalt (kr):</label>
+                <label id="modalAmountLabel">Beløb betalt (kr):</label>
                 <input type="number" id="modalAmount" placeholder="0.00" step="0.01">
             </div>
             <div class="modal-buttons">
-                <button class="btn btn-confirm" onclick="confirmAmount()">✓ Bekræft</button>
+                <button class="btn btn-confirm" onclick="handlePayment()">✓ Bekræft</button>
                 <button class="btn btn-cancel" onclick="closeModal()">✗ Annuller</button>
             </div>
         </div>
@@ -483,10 +512,12 @@
         function addPerson() {
             const name = document.getElementById('personName').value.trim();
             const phone = document.getElementById('personPhone').value.trim();
+            // Tillader negative værdier
             const balance = parseFloat(document.getElementById('startBalance').value);
 
-            if (!name || !phone || isNaN(balance) || balance <= 0) {
-                alert('Udfyld venligst alle felter korrekt!');
+            // Tjekker kun for navne og telefoner, men tillader 0 eller negative beløb
+            if (!name || !phone || isNaN(balance)) {
+                alert('Udfyld venligst Navn, Telefon og et gyldigt Start beløb!');
                 return;
             }
 
@@ -512,14 +543,17 @@
         function renderPeople() {
             const container = document.getElementById('peopleList');
             
-            // OPDATER TOTAL UDLÅNT
+            // OPDATER TOTAL NETTO BALANCE
             const totalSection = document.getElementById('totalSection');
             const totalAmount = document.getElementById('totalAmount');
+            // Beregner netto balancen (positiv gæld minus negativ gæld)
             const total = people.reduce((sum, person) => sum + person.balance, 0);
             
             if (people.length > 0) {
                 totalSection.classList.add('visible');
-                totalAmount.textContent = total.toFixed(2) + ' kr';
+                // Viser '+' for positiv balance
+                const totalText = `${total >= 0 ? '+' : ''}${total.toFixed(2)} kr`;
+                totalAmount.textContent = totalText;
             } else {
                 totalSection.classList.remove('visible');
             }
@@ -529,39 +563,54 @@
                 return;
             }
 
-            container.innerHTML = people.map((person, index) => `
-                <div class="person-card">
-                    <div class="person-header" onclick="togglePerson(${index})">
-                        <div class="person-info">
-                            <h3>👤 ${person.name}</h3>
-                            <div class="person-balance">💰 ${person.balance.toFixed(2)} kr</div>
-                        </div>
-                        <span class="arrow ${openAccordionIndex === index ? 'rotated' : ''}">▼</span>
-                    </div>
-                    <div class="person-content ${openAccordionIndex === index ? 'active' : ''}" id="content-${index}">
-                        <div class="person-inner">
-                            <div class="action-buttons">
-                                <button class="btn btn-sms" onclick="sendSMS(${index})">📱 SMS</button>
-                                <button class="btn btn-paid" onclick="markAsPaid(${index})">✓ Betalt</button>
-                                <button class="btn btn-partial" onclick="openPartialModal(${index})">💵 Delvis</button>
-                                <button class="btn btn-delete" onclick="deletePerson(${index})">🗑️ Slet</button>
+            container.innerHTML = people.map((person, index) => {
+                const isPositive = person.balance >= 0;
+                const balanceText = isPositive ? 
+                    `Skylder dig: ${person.balance.toFixed(2)} kr` : 
+                    `Du skylder: ${Math.abs(person.balance).toFixed(2)} kr`;
+                const balanceType = isPositive ? 'positive' : 'negative';
+                const clearButtonText = isPositive ? '✓ Betalt' : '✓ Udbetalt';
+                const clearButtonClass = isPositive ? 'btn-paid' : 'btn-cleared';
+
+
+                return `
+                    <div class="person-card" data-balance-type="${balanceType}">
+                        <div class="person-header" onclick="togglePerson(${index})">
+                            <div class="person-info">
+                                <h3>👤 ${person.name}</h3>
+                                <div class="person-balance">💰 ${balanceText}</div>
                             </div>
-                            
-                            ${person.history.length > 0 ? `
-                                <div class="history-section">
-                                    <h4>📋 Historik</h4>
-                                    ${person.history.map(h => `
-                                        <div class="history-item">
-                                            <span>${h.date}</span>
-                                            <strong>${h.amount.toFixed(2)} kr</strong>
-                                        </div>
-                                    `).join('')}
+                            <span class="arrow ${openAccordionIndex === index ? 'rotated' : ''}">▼</span>
+                        </div>
+                        <div class="person-content ${openAccordionIndex === index ? 'active' : ''}" id="content-${index}">
+                            <div class="person-inner">
+                                <div class="action-buttons">
+                                    <button class="btn btn-sms" onclick="sendSMS(${index})">📱 SMS</button>
+                                    <button class="btn ${clearButtonClass}" onclick="clearBalance(${index})">${clearButtonText}</button>
+                                    <button class="btn btn-partial" onclick="openPartialModal(${index})">💵 Betaling/Tilbagebetaling</button>
+                                    <button class="btn btn-delete" onclick="deletePerson(${index})">🗑️ Slet</button>
                                 </div>
-                            ` : ''}
+                                
+                                ${person.history.length > 0 ? `
+                                    <div class="history-section">
+                                        <h4>📋 Historik</h4>
+                                        ${person.history.map(h => {
+                                            const historyClass = h.type === 'initial' ? 'initial' : 'payment';
+                                            const prefix = h.amount >= 0 ? '+' : '';
+                                            return `
+                                                <div class="history-item ${historyClass}">
+                                                    <span>${h.date} - ${h.type === 'initial' ? 'Startsaldo' : 'Betaling'}</span>
+                                                    <strong>${prefix}${h.amount.toFixed(2)} kr</strong>
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function togglePerson(index) {
@@ -578,18 +627,36 @@
             const senderPhone = document.getElementById('senderPhone').value || 'INTET NUMMER';
             const revolutLink = document.getElementById('revolutLink').value || 'https://revolut.me/iamjc';
             
-            const message = `Hej ${person.name}! Du skylder mig ${person.balance.toFixed(2)} kr. Kan du betale via MobilePay (${senderPhone}) eller på Revolut ${revolutLink}? Hvis du ikke kan betale hele beløbet, kan du overføre det du kan. Tak :-)`;
+            let message;
+            if (person.balance > 0) {
+                 message = `Hej ${person.name}! Du skylder mig ${person.balance.toFixed(2)} kr. Kan du betale via MobilePay (${senderPhone}) eller på Revolut ${revolutLink}? Hvis du ikke kan betale hele beløbet, kan du overføre det du kan. Tak :-)`;
+            } else if (person.balance < 0) {
+                const amount = Math.abs(person.balance).toFixed(2);
+                message = `Hej ${person.name}! Jeg skylder dig ${amount} kr. Jeg overfører beløbet til dig snarest. Lad mig vide, hvis du har en foretrukken betalingsmetode. Mvh.`;
+            } else {
+                 message = `Hej ${person.name}! Vi skylder ikke hinanden penge for øjeblikket. Mvh.`;
+            }
             
             window.location.href = `sms:${person.phone}?body=${encodeURIComponent(message)}`;
         }
 
-        function markAsPaid(index) {
-            if (confirm(`Marker ${people[index].name} som fuldt betalt?`)) {
-                people[index].balance = 0;
-                people[index].history.push({
+        function clearBalance(index) {
+            const person = people[index];
+            const isPositive = person.balance >= 0;
+            const confirmationText = isPositive ? 
+                `Marker ${person.name} som fuldt betalt (gæld til dig)?` : 
+                `Marker at du har betalt ${person.name} tilbage for ${Math.abs(person.balance).toFixed(2)} kr?`;
+
+            if (confirm(confirmationText)) {
+                // Gemmer den nuværende balance for historikken
+                const clearedAmount = -person.balance; 
+                
+                person.balance = 0;
+                person.history.push({
                     date: new Date().toLocaleString('da-DK'),
-                    amount: people[index].balance,
-                    type: 'paid'
+                    // Gemmer det faktiske beløb, der blev udlignet/ændret
+                    amount: clearedAmount, 
+                    type: 'cleared'
                 });
                 saveData();
                 renderPeople();
@@ -598,8 +665,20 @@
 
         function openPartialModal(index) {
             currentPersonIndex = index;
-            document.getElementById('modalPersonName').textContent = 
-                `${people[index].name} skylder: ${people[index].balance.toFixed(2)} kr`;
+            const person = people[index];
+            const isPositive = person.balance >= 0;
+            const balanceAbs = Math.abs(person.balance).toFixed(2);
+
+            if (isPositive) {
+                document.getElementById('modalPersonName').textContent = 
+                    `${person.name} skylder dig: ${balanceAbs} kr`;
+                document.getElementById('modalAmountLabel').textContent = 'Beløb betalt af person (kr):';
+            } else {
+                document.getElementById('modalPersonName').textContent = 
+                    `Du skylder ${person.name}: ${balanceAbs} kr`;
+                document.getElementById('modalAmountLabel').textContent = 'Beløb betalt til person (kr):';
+            }
+
             document.getElementById('modalAmount').value = '';
             document.getElementById('partialModal').classList.add('active');
             document.getElementById('modalAmount').focus();
@@ -610,23 +689,43 @@
             currentPersonIndex = null;
         }
 
-        function confirmAmount() {
+        function handlePayment() {
             const amount = parseFloat(document.getElementById('modalAmount').value);
+            const person = people[currentPersonIndex];
+            const isPositive = person.balance >= 0;
             
             if (isNaN(amount) || amount <= 0) {
                 alert('Indtast et gyldigt beløb!');
                 return;
             }
 
-            if (amount > people[currentPersonIndex].balance) {
-                alert('Beløbet er større end gælden!');
-                return;
+            // Tjekker om betalingen overstiger det aktuelle skyldige beløb (i absolut værdi)
+            if (amount > Math.abs(person.balance)) {
+                 if (isPositive) {
+                    // Hvis personen betaler MERE end de skylder (positiv saldo)
+                    if (!confirm(`Beløbet ${amount.toFixed(2)} kr er større end gælden ${person.balance.toFixed(2)} kr. Er du sikker på, at du vil registrere dette? Personen vil nu have et tilgodehavende.`)) {
+                        return;
+                    }
+                 } else {
+                     // Hvis du betaler MERE end du skylder (negativ saldo)
+                     if (!confirm(`Beløbet ${amount.toFixed(2)} kr er større end det skyldige beløb ${Math.abs(person.balance).toFixed(2)} kr. Er du sikker på, at du vil registrere dette? Du vil nu have et tilgodehavende fra personen.`)) {
+                        return;
+                    }
+                 }
             }
+            
+            // Hvis saldoen er positiv (personen skylder dig), trækkes betalingen fra saldoen.
+            // Hvis saldoen er negativ (du skylder personen), trækkes betalingen fra saldoen (dvs. den gøres mindre negativ).
+            person.balance -= amount;
+            
+            // Gemmer betalingen som et negativt tal i historikken for at vise, at saldoen er faldet (hvis positiv saldo).
+            // Eller som et positivt tal, hvis du betaler (negativ saldo), men vi gemmer den absolutte værdi.
+            // For at gøre historikken konsekvent: Gem den faktiske ændring i balance:
+            const historyAmount = isPositive ? -amount : amount;
 
-            people[currentPersonIndex].balance -= amount;
-            people[currentPersonIndex].history.push({
+            person.history.push({
                 date: new Date().toLocaleString('da-DK'),
-                amount: amount,
+                amount: historyAmount, // Negativt for at indikere betaling, positivt for tilbagebetaling
                 type: 'partial'
             });
 
@@ -636,7 +735,15 @@
         }
 
         function deletePerson(index) {
-            if (confirm(`Slet ${people[index].name}?`)) {
+            if (confirm(`Slet ${people[index].name} og al historik?`)) {
+                // Sæt openAccordionIndex til null, hvis den slettede person var åben
+                if (openAccordionIndex === index) {
+                    openAccordionIndex = null;
+                } else if (openAccordionIndex > index) {
+                    // Juster index hvis en tidligere person slettes
+                    openAccordionIndex--;
+                }
+                
                 people.splice(index, 1);
                 saveData();
                 renderPeople();
@@ -652,7 +759,7 @@
 
         document.getElementById('modalAmount').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                confirmAmount();
+                handlePayment();
             }
         });
 
