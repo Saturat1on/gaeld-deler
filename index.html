@@ -141,12 +141,19 @@
             font-weight: 600; 
         }
         
-        .input-group input { 
+        .input-group input,
+        .input-group textarea { 
             width: 100%; 
             padding: 12px; 
             border: none; 
             border-radius: 8px; 
-            font-size: 1em; 
+            font-size: 1em;
+            font-family: inherit;
+        }
+        
+        .input-group textarea {
+            resize: vertical;
+            min-height: 60px;
         }
 
         /* FORM SECTION */
@@ -171,16 +178,25 @@
             flex-wrap: wrap; 
         }
         
-        .form-row input { 
+        .form-row input,
+        .form-row textarea { 
             flex: 1; 
             min-width: 200px; 
             padding: 12px; 
             border: 2px solid #ddd; 
             border-radius: 8px; 
-            font-size: 1em; 
+            font-size: 1em;
+            font-family: inherit;
         }
         
-        .form-row input:focus { 
+        .form-row textarea {
+            resize: vertical;
+            min-height: 60px;
+            min-width: 100%;
+        }
+        
+        .form-row input:focus,
+        .form-row textarea:focus { 
             outline: none; 
             border-color: var(--primary-color); 
         }
@@ -346,8 +362,6 @@
             padding: 10px; 
             border-radius: 8px; 
             margin-bottom: 8px; 
-            display: flex; 
-            justify-content: space-between; 
             box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
             font-size: 0.9em;
         }
@@ -364,12 +378,25 @@
             border-left: 5px solid var(--action-cleared-negative); 
         }
         
-        .history-item span { 
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .history-header span { 
             color: #666; 
         }
         
-        .history-item strong { 
+        .history-header strong { 
             color: #333; 
+        }
+        
+        .history-note {
+            color: #764ba2;
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 5px;
         }
 
         /* MODAL */
@@ -396,6 +423,8 @@
             border-radius: 15px; 
             max-width: 400px; 
             width: 90%; 
+            max-height: 80vh;
+            overflow-y: auto;
         }
         
         .modal-content h3 { 
@@ -435,7 +464,8 @@
                 flex-direction: column; 
             }
             
-            .form-row input { 
+            .form-row input,
+            .form-row textarea { 
                 min-width: 100%; 
             }
             
@@ -487,6 +517,9 @@
             <div class="form-row">
                 <input type="number" id="startBalance" placeholder="Start beløb (kr) - Positiv/Negativ" step="0.01" required>
             </div>
+            <div class="form-row">
+                <textarea id="startNote" placeholder="Note (valgfri - f.eks. 'Middag fredag' eller 'Lån til bil')"></textarea>
+            </div>
             <button class="btn btn-add" onclick="addPerson()">Tilføj Person</button>
         </div>
 
@@ -500,6 +533,10 @@
             <div class="input-group">
                 <label>Beløb (kr):</label>
                 <input type="number" id="transactionAmount" placeholder="Positivt for gæld. Negativt for betaling." step="0.01">
+            </div>
+            <div class="input-group">
+                <label>Note (valgfri):</label>
+                <textarea id="transactionNote" placeholder="F.eks. 'Pizza', 'Benzin', 'Betaling via MobilePay'"></textarea>
             </div>
             <p style="font-size: 0.8em; color: #764ba2; margin-top: -10px; margin-bottom: 15px;">
                 Eksempler: **+100.00** (Personen låner 100 kr.) eller **-50.00** (Personen betaler 50 kr. tilbage).
@@ -567,6 +604,7 @@
             const name = document.getElementById('personName').value.trim();
             const phone = document.getElementById('personPhone').value.trim();
             const balance = parseFloat(document.getElementById('startBalance').value);
+            const note = document.getElementById('startNote').value.trim();
 
             if (!name || !phone || isNaN(balance)) {
                 alert('Udfyld venligst Navn, Telefon og et gyldigt Start beløb!');
@@ -580,13 +618,15 @@
                 history: [{
                     date: getFormattedDate(), 
                     amount: balance,
-                    type: 'initial'
+                    type: 'initial',
+                    note: note || ''
                 }]
             });
 
             document.getElementById('personName').value = '';
             document.getElementById('personPhone').value = '';
             document.getElementById('startBalance').value = '';
+            document.getElementById('startNote').value = '';
 
             saveData();
             renderPeople();
@@ -657,8 +697,11 @@
 
                                             return `
                                                 <div class="history-item ${historyClass}">
-                                                    <span>${h.date} - ${typeText}</span>
-                                                    <strong>${amountFormatted}</strong>
+                                                    <div class="history-header">
+                                                        <span>${h.date} - ${typeText}</span>
+                                                        <strong>${amountFormatted}</strong>
+                                                    </div>
+                                                    ${h.note ? `<div class="history-note">📝 ${h.note}</div>` : ''}
                                                 </div>
                                             `;
                                         }).join('')}
@@ -691,12 +734,14 @@
             document.getElementById('transactionModalPersonName').textContent = 
                 `Nuværende Saldo: ${currencyFormatter.format(person.balance)}`;
             document.getElementById('transactionAmount').value = '';
+            document.getElementById('transactionNote').value = '';
             document.getElementById('transactionModal').classList.add('active');
             document.getElementById('transactionAmount').focus();
         }
         
         function handleTransaction() {
             const amount = parseFloat(document.getElementById('transactionAmount').value);
+            const note = document.getElementById('transactionNote').value.trim();
             
             if (isNaN(amount) || amount === 0) {
                 alert('Indtast et gyldigt beløb (positivt for gæld, negativt for betaling)!');
@@ -709,7 +754,8 @@
             person.history.push({
                 date: getFormattedDate(),
                 amount: amount, 
-                type: 'transaction'
+                type: 'transaction',
+                note: note || ''
             });
 
             saveData();
@@ -731,7 +777,8 @@
                 person.history.push({
                     date: getFormattedDate(),
                     amount: clearedAmount, 
-                    type: 'cleared'
+                    type: 'cleared',
+                    note: 'Saldo nulstillet'
                 });
                 saveData();
                 renderPeople();
