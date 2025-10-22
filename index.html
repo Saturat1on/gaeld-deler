@@ -21,6 +21,7 @@
             --action-cleared-positive: #4CAF50;
             --action-cleared-negative: #FF5722;
             --action-transaction: #33aaff;
+            --action-edit: #FF9800;
             --action-delete: #f44336;
         }
         
@@ -319,6 +320,15 @@
             background: #1997e6; 
         }
 
+        .btn-edit { 
+            background: var(--action-edit); 
+            color: white; 
+        }
+        
+        .btn-edit:hover { 
+            background: #F57C00; 
+        }
+
         .btn-paid { 
             background: var(--action-cleared-positive); 
             color: white; 
@@ -526,6 +536,7 @@
         <div id="peopleList"></div>
     </div>
 
+    <!-- TRANSACTION MODAL -->
     <div id="transactionModal" class="modal">
         <div class="modal-content">
             <h3 id="transactionModalTitle">🔄 Registrer Ny Transaktion</h3>
@@ -548,6 +559,32 @@
         </div>
     </div>
 
+    <!-- EDIT MODAL -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h3>✏️ Rediger Person</h3>
+            <div class="input-group">
+                <label>Navn:</label>
+                <input type="text" id="editName" placeholder="Navn">
+            </div>
+            <div class="input-group">
+                <label>Telefon:</label>
+                <input type="tel" id="editPhone" placeholder="Telefon">
+            </div>
+            <div class="input-group">
+                <label>Nuværende Saldo (kr):</label>
+                <input type="number" id="editBalance" placeholder="Saldo" step="0.01">
+            </div>
+            <p style="font-size: 0.85em; color: #764ba2; margin-top: -10px; margin-bottom: 15px;">
+                ⚠️ Bemærk: Ændring af saldo påvirker ikke historikken.
+            </p>
+            <div class="modal-buttons">
+                <button class="btn btn-confirm" onclick="saveEdit()">✓ Gem Ændringer</button>
+                <button class="btn btn-cancel" onclick="closeModal('editModal')">✗ Annuller</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         let people = [];
         let currentPersonIndex = null;
@@ -558,7 +595,7 @@
             const day = String(now.getDate()).padStart(2, '0');
             const month = String(now.getMonth() + 1).padStart(2, '0');
             const year = now.getFullYear();
-            return `${day}-${month}-${year}`;
+            return ` $ {day}- $ {month}- $ {year}`;
         }
 
         const currencyFormatter = new Intl.NumberFormat('da-DK', {
@@ -657,179 +694,27 @@
                 const balanceFormatted = currencyFormatter.format(balanceAbs).replace('kr.', 'kr');
                 
                 const balanceText = isPositive ? 
-                    `Skylder dig: ${balanceFormatted}` : 
-                    `Du skylder: ${balanceFormatted}`;
+                    `Skylder dig:  $ {balanceFormatted}` : 
+                    `Du skylder:  $ {balanceFormatted}`;
                     
                 const balanceType = isPositive ? 'positive' : 'negative';
                 const clearButtonText = isPositive ? '✓ Saldo Nulstillet (Betalt til dig)' : '✓ Saldo Nulstillet (Udbetalt til person)';
                 const clearButtonClass = isPositive ? 'btn-paid' : 'btn-cleared';
 
                 return `
-                    <div class="person-card" data-balance-type="${balanceType}">
-                        <div class="person-header" onclick="togglePerson(${index})">
+                    <div class="person-card" data-balance-type=" $ {balanceType}">
+                        <div class="person-header" onclick="togglePerson( $ {index})">
                             <div class="person-info">
-                                <h3>👤 ${person.name}</h3>
-                                <div class="person-balance">💰 ${balanceText}</div>
+                                <h3>👤  $ {person.name}</h3>
+                                <div class="person-balance">💰  $ {balanceText}</div>
                             </div>
-                            <span class="arrow ${openAccordionIndex === index ? 'rotated' : ''}">▼</span>
+                            <span class="arrow  $ {openAccordionIndex === index ? 'rotated' : ''}">▼</span>
                         </div>
-                        <div class="person-content ${openAccordionIndex === index ? 'active' : ''}" id="content-${index}">
+                        <div class="person-content  $ {openAccordionIndex === index ? 'active' : ''}" id="content- $ {index}">
                             <div class="person-inner">
                                 <div class="action-buttons">
-                                    <button class="btn btn-sms" onclick="sendSMS(${index})">📱 SMS</button>
-                                    <button class="btn btn-transaction" onclick="openTransactionModal(${index})">🔄 Ny Transaktion</button>
-                                    <button class="btn ${clearButtonClass}" onclick="clearBalance(${index})">${clearButtonText}</button>
-                                    <button class="btn btn-delete" onclick="deletePerson(${index})">🗑️ Slet</button>
-                                </div>
-                                
-                                ${person.history.length > 0 ? `
-                                    <div class="history-section">
-                                        <h4>📋 Historik</h4>
-                                        ${person.history.map(h => {
-                                            const historyClass = h.type === 'initial' ? 'initial' : (h.type === 'cleared' ? 'cleared' : 'payment');
-                                            const amountFormatted = currencyFormatter.format(h.amount).replace('kr.', 'kr');
-                                            
-                                            let typeText = '';
-                                            if (h.type === 'initial') typeText = 'Startsaldo';
-                                            else if (h.type === 'cleared') typeText = 'Saldo Nulstillet';
-                                            else if (h.amount >= 0) typeText = 'Ny Gæld/Kredit';
-                                            else typeText = 'Betaling/Tilbagebetaling';
-
-                                            return `
-                                                <div class="history-item ${historyClass}">
-                                                    <div class="history-header">
-                                                        <span>${h.date} - ${typeText}</span>
-                                                        <strong>${amountFormatted}</strong>
-                                                    </div>
-                                                    ${h.note ? `<div class="history-note">📝 ${h.note}</div>` : ''}
-                                                </div>
-                                            `;
-                                        }).join('')}
-                                    </div>
-                                ` : ''}
-                            </div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function togglePerson(index) {
-            if (openAccordionIndex === index) {
-                openAccordionIndex = null;
-            } else {
-                openAccordionIndex = index;
-            }
-            renderPeople();
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.remove('active');
-            currentPersonIndex = null;
-        }
-
-        function openTransactionModal(index) {
-            currentPersonIndex = index;
-            const person = people[index];
-            document.getElementById('transactionModalPersonName').textContent = 
-                `Nuværende Saldo: ${currencyFormatter.format(person.balance)}`;
-            document.getElementById('transactionAmount').value = '';
-            document.getElementById('transactionNote').value = '';
-            document.getElementById('transactionModal').classList.add('active');
-            document.getElementById('transactionAmount').focus();
-        }
-        
-        function handleTransaction() {
-            const amount = parseFloat(document.getElementById('transactionAmount').value);
-            const note = document.getElementById('transactionNote').value.trim();
-            
-            if (isNaN(amount) || amount === 0) {
-                alert('Indtast et gyldigt beløb (positivt for gæld, negativt for betaling)!');
-                return;
-            }
-            
-            const person = people[currentPersonIndex];
-            person.balance += amount; 
-            
-            person.history.push({
-                date: getFormattedDate(),
-                amount: amount, 
-                type: 'transaction',
-                note: note || ''
-            });
-
-            saveData();
-            renderPeople();
-            closeModal('transactionModal');
-        }
-
-        function clearBalance(index) {
-            const person = people[index];
-            const isPositive = person.balance >= 0;
-            const confirmationText = isPositive ? 
-                `Marker ${person.name} som fuldt betalt (gæld til dig på ${currencyFormatter.format(person.balance)})?` : 
-                `Marker at du har betalt ${person.name} tilbage for ${currencyFormatter.format(Math.abs(person.balance))})?`;
-
-            if (confirm(confirmationText)) {
-                const clearedAmount = -person.balance; 
-                
-                person.balance = 0;
-                person.history.push({
-                    date: getFormattedDate(),
-                    amount: clearedAmount, 
-                    type: 'cleared',
-                    note: 'Saldo nulstillet'
-                });
-                saveData();
-                renderPeople();
-            }
-        }
-
-        function deletePerson(index) {
-            if (confirm(`Slet ${people[index].name} og al historik?`)) {
-                if (openAccordionIndex === index) {
-                    openAccordionIndex = null;
-                } else if (openAccordionIndex > index) {
-                    openAccordionIndex--;
-                }
-                
-                people.splice(index, 1);
-                saveData();
-                renderPeople();
-            }
-        }
-
-        function sendSMS(index) {
-            const person = people[index];
-            const senderPhone = document.getElementById('senderPhone').value || 'INTET NUMMER';
-            const revolutLink = document.getElementById('revolutLink').value || 'https://revolut.me/iamjc';
-            
-            let message;
-            if (person.balance > 0) {
-                 message = `Hej ${person.name}! Du skylder mig ${currencyFormatter.format(person.balance)} kr. Kan du betale via MobilePay (${senderPhone}) eller på Revolut ${revolutLink}? Mvh.`;
-            } else if (person.balance < 0) {
-                const amount = Math.abs(person.balance);
-                message = `Hej ${person.name}! Jeg skylder dig ${currencyFormatter.format(amount)} kr. Jeg overfører beløbet til dig snarest. Mit Revolut link er ${revolutLink}. Mvh.`;
-            } else {
-                 message = `Hej ${person.name}! Vi skylder ikke hinanden penge for øjeblikket. Mvh.`;
-            }
-            
-            window.location.href = `sms:${person.phone}?body=${encodeURIComponent(message)}`;
-        }
-
-        document.getElementById('startBalance').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                addPerson();
-            }
-        });
-        
-        document.getElementById('transactionAmount').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                handleTransaction();
-            }
-        });
-
-        loadData();
-    </script>
-</body>
-</html>
+                                    <button class="btn btn-sms" onclick="sendSMS( $ {index})">📱 SMS</button>
+                                    <button class="btn btn-transaction" onclick="openTransactionModal( $ {index})">🔄 Ny Transaktion</button>
+                                    <button class="btn btn-edit" onclick="openEditModal( $ {index})">✏️ Rediger</button>
+                                    <button class="btn  $ {clearButtonClass}" onclick="clearBalance( $ {index})"> $ {clearButtonText}</button>
+                                    <button class="btn btn-delete" onclick="deletePerson(${index}
