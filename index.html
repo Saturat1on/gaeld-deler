@@ -70,517 +70,416 @@
         }
         
         .total-label { 
-            color: rgba(255,255,255,0.9); 
-            font-size: 14px; 
-            margin-bottom: 5px; 
-            font-weight: 600; 
+            color: rgba(255,255,255,0.9);
+            font-size: 0.9em;
+            margin-bottom: 5px;
+            font-weight: 500;
         }
         
         .total-amount { 
-            color: white; 
-            font-size: 32px; 
-            font-weight: bold; 
+            color: white;
+            font-size: 2em;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
         }
 
-        /* SENDER SECTION */
-        .sender-section { 
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%); 
-            border-radius: 15px; 
-            margin-bottom: 20px; 
-            overflow: hidden; 
+        /* INPUT SEKTION */
+        .input-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
         }
-        
-        .sender-header { 
-            padding: 20px; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            color: white; 
+
+        .form-group {
+            margin-bottom: 15px;
         }
-        
-        .sender-header:hover { 
-            background: rgba(255,255,255,0.1); 
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 500;
         }
-        
-        .sender-header h2 { 
-            font-size: 1.2em; 
-            margin: 0; 
+
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
         }
-        
-        .arrow { 
-            font-size: 1.5em; 
-            transition: transform 0.3s; 
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
         }
-        
-        .arrow.rotated { 
-            transform: rotate(180deg); 
-        }
-        
-        .sender-content { 
-            max-height: 0; 
-            overflow: hidden; 
-            transition: max-height 0.3s ease; 
-        }
-        
-        .sender-content.active { 
-            max-height: 300px; 
-        }
-        
-        .sender-inner { 
-            padding: 0 20px 20px 20px; 
-            color: white; 
-        }
-        
-        .input-group { 
-            margin-bottom: 15px; 
-        }
-        
-        .input-group label { 
-            display: block; 
-            margin-bottom: 5px; 
-            font-weight: 600; 
-        }
-        
-        .input-group input,
-        .input-group textarea { 
-            width: 100%; 
-            padding: 12px; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 1em;
-            font-family: inherit;
-        }
-        
-        .input-group textarea {
+
+        textarea {
             resize: vertical;
             min-height: 60px;
-        }
-
-        /* FORM SECTION */
-        .form-section { 
-            background: #f8f9ff; 
-            padding: 20px; 
-            border-radius: 15px; 
-            margin-bottom: 30px; 
-            border: 2px solid var(--primary-color); 
-        }
-        
-        .form-section h2 { 
-            color: var(--primary-color); 
-            margin-bottom: 20px; 
-            font-size: 1.3em; 
-        }
-        
-        .form-row { 
-            display: flex; 
-            gap: 10px; 
-            margin-bottom: 15px; 
-            flex-wrap: wrap; 
-        }
-        
-        .form-row input,
-        .form-row textarea { 
-            flex: 1; 
-            min-width: 200px; 
-            padding: 12px; 
-            border: 2px solid #ddd; 
-            border-radius: 8px; 
-            font-size: 1em;
             font-family: inherit;
         }
-        
-        .form-row textarea {
-            resize: vertical;
-            min-height: 60px;
-            min-width: 100%;
-        }
-        
-        .form-row input:focus,
-        .form-row textarea:focus { 
-            outline: none; 
-            border-color: var(--primary-color); 
-        }
-        
-        .btn { 
-            padding: 12px 24px; 
-            border: none; 
-            border-radius: 8px; 
-            font-size: 1em; 
-            cursor: pointer; 
-            transition: all 0.3s; 
-            font-weight: 600; 
-        }
-        
-        .btn-add { 
-            background: var(--primary-color); 
-            color: white; 
-            width: 100%; 
-            margin-top: 10px; 
-        }
-        
-        .btn-add:hover { 
-            background: #5568d3; 
-            transform: translateY(-2px); 
+
+        .btn {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        /* PEOPLE LIST */
-        .person-card { 
-            background: white; 
-            border-radius: 15px; 
-            padding: 0; 
-            margin-bottom: 15px; 
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1); 
-            border: 2px solid #e0e0e0; 
-            overflow: hidden; 
-        }
-        
-        /* Kort Farver */
-        .person-card[data-balance-type="positive"] .person-header { 
-            background: linear-gradient(135deg, var(--positive-header-start) 0%, var(--positive-header-end) 100%); 
-        }
-        
-        .person-card[data-balance-type="positive"] .person-header:hover { 
-            background: linear-gradient(135deg, #5568d3 0%, #6a3f8f 100%); 
-        }
-        
-        .person-card[data-balance-type="positive"] .person-balance { 
-            color: var(--balance-positive-color); 
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
         }
 
-        .person-card[data-balance-type="negative"] .person-header { 
-            background: linear-gradient(135deg, var(--negative-header-start) 0%, var(--negative-header-end) 100%); 
-        }
-        
-        .person-card[data-balance-type="negative"] .person-header:hover { 
-            background: linear-gradient(135deg, #009688 0%, #82b535 100%); 
-        }
-        
-        .person-card[data-balance-type="negative"] .person-balance { 
-            color: var(--balance-negative-color); 
+        .btn:active {
+            transform: translateY(0);
         }
 
-        .person-header { 
-            padding: 20px; 
-            cursor: pointer; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            transition: all 0.3s; 
+        /* PERSON CARD STYLING */
+        .person-card {
+            background: white;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: box-shadow 0.3s;
         }
-        
-        .person-info h3 { 
-            color: white; 
-            margin-bottom: 5px; 
-            font-size: 1.2em; 
+
+        .person-card:hover {
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
-        
-        .person-balance { 
-            font-size: 1.3em; 
-            font-weight: bold; 
+
+        .person-header {
+            background: linear-gradient(135deg, var(--positive-header-start) 0%, var(--positive-header-end) 100%);
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
         }
-        
-        .person-content { 
-            max-height: 0; 
-            overflow: hidden; 
-            transition: max-height 0.3s ease; 
-            background: #f8f9ff; 
+
+        .person-card[data-balance-type="negative"] .person-header {
+            background: linear-gradient(135deg, var(--negative-header-start) 0%, var(--negative-header-end) 100%);
         }
-        
-        .person-content.active { 
-            max-height: 800px; 
+
+        .person-info h3 {
+            color: white;
+            margin-bottom: 8px;
+            font-size: 1.3em;
         }
-        
-        .person-inner { 
-            padding: 20px; 
+
+        .person-balance {
+            color: var(--balance-positive-color);
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .person-card[data-balance-type="negative"] .person-balance {
+            color: var(--balance-negative-color);
+        }
+
+        .arrow {
+            color: white;
+            font-size: 1.2em;
+            transition: transform 0.3s;
+        }
+
+        .arrow.rotated {
+            transform: rotate(180deg);
+        }
+
+        .person-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .person-content.active {
+            max-height: 2000px;
+        }
+
+        .person-inner {
+            padding: 20px;
         }
 
         .action-buttons {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons .btn {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .btn-sms {
+            background: var(--action-sms);
+        }
+
+        .btn-paid {
+            background: var(--action-cleared-positive);
+        }
+
+        .btn-cleared {
+            background: var(--action-cleared-negative);
+        }
+
+        .btn-transaction {
+            background: var(--action-transaction);
+        }
+
+        .btn-edit {
+            background: var(--action-edit);
+        }
+
+        .btn-delete {
+            background: var(--action-delete);
+        }
+
+        /* HISTORIK */
+        .history {
+            margin-top: 20px;
+        }
+
+        .history h4 {
+            color: var(--primary-color);
             margin-bottom: 15px;
+            font-size: 1.1em;
         }
 
-        .btn-sms { 
-            background: var(--action-sms); 
-            color: white; 
-        }
-        
-        .btn-sms:hover { 
-            background: #20bd5a; 
-        }
-
-        .btn-transaction { 
-            background: var(--action-transaction); 
-            color: white; 
-        }
-        
-        .btn-transaction:hover { 
-            background: #1997e6; 
+        .history-item {
+            background: #f8f9fa;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 4px solid var(--primary-color);
         }
 
-        .btn-edit { 
-            background: var(--action-edit); 
-            color: white; 
-        }
-        
-        .btn-edit:hover { 
-            background: #F57C00; 
-        }
-
-        .btn-paid { 
-            background: var(--action-cleared-positive); 
-            color: white; 
-        }
-        
-        .btn-cleared { 
-            background: var(--action-cleared-negative); 
-            color: white; 
-        }
-        
-        .btn-paid:hover { 
-            background: #45a049; 
-        }
-        
-        .btn-cleared:hover { 
-            background: #e64a19; 
-        }
-        
-        .btn-delete { 
-            background: var(--action-delete); 
-            color: white; 
-        }
-        
-        .btn-delete:hover { 
-            background: #da190b; 
-        }
-
-        .history-section { 
-            margin-top: 20px; 
-            padding-top: 20px; 
-            border-top: 2px solid #ddd; 
-        }
-        
-        .history-section h4 { 
-            color: var(--primary-color); 
-            margin-bottom: 10px; 
-        }
-
-        .history-item { 
-            background: white; 
-            padding: 10px; 
-            border-radius: 8px; 
-            margin-bottom: 8px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-            font-size: 0.9em;
-        }
-        
-        .history-item.payment { 
-            border-left: 5px solid var(--action-transaction); 
-        }
-        
-        .history-item.initial { 
-            border-left: 5px solid var(--primary-color); 
-        }
-        
-        .history-item.cleared { 
-            border-left: 5px solid var(--action-cleared-negative); 
-        }
-        
-        .history-header {
-            display: flex;
-            justify-content: space-between;
+        .history-date {
+            color: #666;
+            font-size: 0.85em;
             margin-bottom: 5px;
         }
-        
-        .history-header span { 
-            color: #666; 
-        }
-        
-        .history-header strong { 
-            color: #333; 
-        }
-        
-        .history-note {
-            color: #764ba2;
-            font-style: italic;
-            font-size: 0.9em;
-            margin-top: 5px;
+
+        .history-amount {
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1em;
         }
 
-        /* MODAL */
-        .modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: rgba(0,0,0,0.5); 
-            z-index: 1000; 
-            align-items: center; 
-            justify-content: center; 
+        .history-note {
+            color: #666;
+            font-size: 0.9em;
+            margin-top: 5px;
+            font-style: italic;
         }
-        
-        .modal.active { 
-            display: flex; 
+
+        /* MODAL STYLING */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
         }
-        
-        .modal-content { 
-            background: white; 
-            padding: 30px; 
-            border-radius: 15px; 
-            max-width: 400px; 
-            width: 90%; 
-            max-height: 80vh;
-            overflow-y: auto;
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        
-        .modal-content h3 { 
-            color: var(--primary-color); 
-            margin-bottom: 20px; 
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s;
         }
-        
-        .modal-buttons { 
-            display: flex; 
-            gap: 10px; 
-            margin-top: 20px; 
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
         }
-        
-        .btn-confirm { 
-            background: var(--action-cleared-positive); 
-            color: white; 
-            flex: 1; 
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        
-        .btn-cancel { 
-            background: var(--action-delete); 
-            color: white; 
-            flex: 1; 
+
+        .modal-header h2 {
+            color: var(--primary-color);
+            font-size: 1.5em;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .close:hover {
+            color: #000;
+        }
+
+        .modal-buttons {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
         }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .container { 
-                padding: 15px; 
+            .container {
+                padding: 15px;
             }
-            
-            h1 { 
-                font-size: 1.5em; 
+
+            h1 {
+                font-size: 1.5em;
             }
-            
-            .form-row { 
-                flex-direction: column; 
+
+            .action-buttons {
+                grid-template-columns: 1fr;
             }
-            
-            .form-row input,
-            .form-row textarea { 
-                min-width: 100%; 
-            }
-            
-            .action-buttons { 
-                grid-template-columns: 1fr 1fr; 
-            }
-            
-            .total-amount { 
-                font-size: 28px; 
+
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+                padding: 20px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>💰 Gælds Tracker</h1>
+        <h1>💰 Gælds App</h1>
 
-        <div id="totalSection" class="total-section">
-            <div class="total-label">💵 Din Netto Balance (positiv = tilgodehavende)</div>
-            <div id="totalAmount" class="total-amount">0 kr</div>
+        <!-- TOTAL OVERSIGT -->
+        <div class="total-section" id="totalSection">
+            <div class="total-label">SAMLET SALDO</div>
+            <div class="total-amount" id="totalAmount">0,00 kr</div>
         </div>
 
-        <div class="sender-section">
-            <div class="sender-header" onclick="toggleSenderInfo()">
-                <h2>📱 Dine Oplysninger</h2>
-                <span class="arrow" id="senderArrow">▼</span>
+        <!-- INPUT SEKTION -->
+        <div class="input-section">
+            <div class="form-group">
+                <label for="personName">👤 Navn på person:</label>
+                <input type="text" id="personName" placeholder="F.eks. Anders">
             </div>
-            <div class="sender-content" id="senderContent">
-                <div class="sender-inner">
-                    <div class="input-group">
-                        <label>Dit Telefonnummer (til SMS afsender):</label>
-                        <input type="tel" id="senderPhone" placeholder="50389119">
-                    </div>
-                    <div class="input-group">
-                        <label>Dit Revolut Link:</label>
-                        <input type="text" id="revolutLink" placeholder="https://revolut.me/ditlink">
-                    </div>
-                </div>
+
+            <div class="form-group">
+                <label for="personPhone">📱 Telefonnummer:</label>
+                <input type="tel" id="personPhone" placeholder="F.eks. 12345678">
             </div>
+
+            <div class="form-group">
+                <label for="startBalance">💵 Start beløb (kr):</label>
+                <input type="number" id="startBalance" placeholder="0" step="0.01">
+            </div>
+
+            <div class="form-group">
+                <label for="startNote">📝 Note (valgfri):</label>
+                <textarea id="startNote" placeholder="F.eks. Pizza og øl fredag aften"></textarea>
+            </div>
+
+            <button class="btn" onclick="addPerson()">➕ Tilføj Person</button>
         </div>
 
-        <div class="form-section">
-            <h2>➕ Tilføj Ny Person</h2>
-            <p style="margin-bottom: 15px; font-size: 0.9em; color: var(--secondary-color);">Brug **positivt** beløb for gæld til dig (f.eks. 100). Brug **negativt** beløb for tilgodehavende (f.eks. -100).</p>
-            <div class="form-row">
-                <input type="text" id="personName" placeholder="Navn" required>
-                <input type="tel" id="personPhone" placeholder="Telefon" required>
-            </div>
-            <div class="form-row">
-                <input type="number" id="startBalance" placeholder="Start beløb (kr) - Positiv/Negativ" step="0.01" required>
-            </div>
-            <div class="form-row">
-                <textarea id="startNote" placeholder="Note (valgfri - f.eks. 'Middag fredag' eller 'Lån til bil')"></textarea>
-            </div>
-            <button class="btn btn-add" onclick="addPerson()">Tilføj Person</button>
-        </div>
-
-        <div id="peopleList"></div>
+        <!-- PERSONER LISTE -->
+        <div id="peopleContainer"></div>
     </div>
 
-    <!-- TRANSACTION MODAL -->
+    <!-- TRANSAKTION MODAL -->
     <div id="transactionModal" class="modal">
         <div class="modal-content">
-            <h3 id="transactionModalTitle">🔄 Registrer Ny Transaktion</h3>
-            <h4 id="transactionModalPersonName" style="color: #333; margin-bottom: 15px; font-weight: normal;"></h4>
-            <div class="input-group">
-                <label>Beløb (kr):</label>
-                <input type="number" id="transactionAmount" placeholder="Positivt for gæld. Negativt for betaling." step="0.01">
+            <div class="modal-header">
+                <h2>🔄 Ny Transaktion</h2>
+                <span class="close" onclick="closeTransactionModal()">&times;</span>
             </div>
-            <div class="input-group">
-                <label>Note (valgfri):</label>
-                <textarea id="transactionNote" placeholder="F.eks. 'Pizza', 'Benzin', 'Betaling via MobilePay'"></textarea>
+            
+            <div class="form-group">
+                <label for="transactionAmount">💵 Beløb (kr):</label>
+                <input type="number" id="transactionAmount" placeholder="0" step="0.01">
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    Positivt tal = ny gæld | Negativt tal = betaling
+                </small>
             </div>
-            <p style="font-size: 0.8em; color: #764ba2; margin-top: -10px; margin-bottom: 15px;">
-                Eksempler: **+100.00** (Personen låner 100 kr.) eller **-50.00** (Personen betaler 50 kr. tilbage).
-            </p>
+
+            <div class="form-group">
+                <label for="transactionNote">📝 Note (valgfri):</label>
+                <textarea id="transactionNote" placeholder="Hvad er beløbet til?"></textarea>
+            </div>
+
             <div class="modal-buttons">
-                <button class="btn btn-confirm" onclick="handleTransaction()">✓ Bekræft Transaktion</button>
-                <button class="btn btn-cancel" onclick="closeModal('transactionModal')">✗ Annuller</button>
+                <button class="btn btn-secondary" onclick="closeTransactionModal()">Annuller</button>
+                <button class="btn" onclick="handleTransaction()">Gem</button>
             </div>
         </div>
     </div>
 
-    <!-- EDIT MODAL -->
+    <!-- REDIGER MODAL -->
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <h3>✏️ Rediger Person</h3>
-            <div class="input-group">
-                <label>Navn:</label>
-                <input type="text" id="editName" placeholder="Navn">
+            <div class="modal-header">
+                <h2>✏️ Rediger Person</h2>
+                <span class="close" onclick="closeEditModal()">&times;</span>
             </div>
-            <div class="input-group">
-                <label>Telefon:</label>
-                <input type="tel" id="editPhone" placeholder="Telefon">
+            
+            <div class="form-group">
+                <label for="editName">👤 Navn:</label>
+                <input type="text" id="editName">
             </div>
-            <div class="input-group">
-                <label>Nuværende Saldo (kr):</label>
-                <input type="number" id="editBalance" placeholder="Saldo" step="0.01">
+
+            <div class="form-group">
+                <label for="editPhone">📱 Telefonnummer:</label>
+                <input type="tel" id="editPhone">
             </div>
-            <p style="font-size: 0.85em; color: #764ba2; margin-top: -10px; margin-bottom: 15px;">
-                ⚠️ Bemærk: Ændring af saldo påvirker ikke historikken.
-            </p>
+
+            <div class="form-group">
+                <label for="editBalance">💰 Saldo (kr):</label>
+                <input type="number" id="editBalance" step="0.01">
+                <small style="color: #666; display: block; margin-top: 5px;">
+                    Positivt = personen skylder dig | Negativt = du skylder personen
+                </small>
+            </div>
+
             <div class="modal-buttons">
-                <button class="btn btn-confirm" onclick="saveEdit()">✓ Gem Ændringer</button>
-                <button class="btn btn-cancel" onclick="closeModal('editModal')">✗ Annuller</button>
+                <button class="btn btn-secondary" onclick="closeEditModal()">Annuller</button>
+                <button class="btn" onclick="saveEdit()">Gem Ændringer</button>
             </div>
         </div>
     </div>
@@ -589,92 +488,32 @@
         let people = [];
         let currentPersonIndex = null;
         let openAccordionIndex = null;
-        
-        function getFormattedDate() {
-            const now = new Date();
-            const day = String(now.getDate()).padStart(2, '0');
-            const month = String(now.getMonth() + 1).padStart(2, '0');
-            const year = now.getFullYear();
-            return ` $ {day}- $ {month}- $ {year}`;
-        }
+        let currentEditIndex = null;
 
         const currencyFormatter = new Intl.NumberFormat('da-DK', {
             style: 'currency',
             currency: 'DKK',
             minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
+            maximumFractionDigits: 2
         });
 
         function saveData() {
-            localStorage.setItem('debtTrackerPeople', JSON.stringify(people));
-            localStorage.setItem('senderPhone', document.getElementById('senderPhone').value);
-            localStorage.setItem('revolutLink', document.getElementById('revolutLink').value);
+            localStorage.setItem('debtAppData', JSON.stringify(people));
         }
 
         function loadData() {
-            const saved = localStorage.getItem('debtTrackerPeople');
+            const saved = localStorage.getItem('debtAppData');
             if (saved) {
                 people = JSON.parse(saved);
                 renderPeople();
-            }
-
-            const savedPhone = localStorage.getItem('senderPhone');
-            if (savedPhone) {
-                document.getElementById('senderPhone').value = savedPhone;
-            }
-
-            const savedLink = localStorage.getItem('revolutLink');
-            if (savedLink) {
-                document.getElementById('revolutLink').value = savedLink;
+                updateTotal();
             }
         }
 
-        function toggleSenderInfo() {
-            const content = document.getElementById('senderContent');
-            const arrow = document.getElementById('senderArrow');
-            
-            content.classList.toggle('active');
-            arrow.classList.toggle('rotated');
-        }
-
-        function addPerson() {
-            const name = document.getElementById('personName').value.trim();
-            const phone = document.getElementById('personPhone').value.trim();
-            const balance = parseFloat(document.getElementById('startBalance').value);
-            const note = document.getElementById('startNote').value.trim();
-
-            if (!name || !phone || isNaN(balance)) {
-                alert('Udfyld venligst Navn, Telefon og et gyldigt Start beløb!');
-                return;
-            }
-
-            people.push({
-                name: name,
-                phone: phone,
-                balance: balance,
-                history: [{
-                    date: getFormattedDate(), 
-                    amount: balance,
-                    type: 'initial',
-                    note: note || ''
-                }]
-            });
-
-            document.getElementById('personName').value = '';
-            document.getElementById('personPhone').value = '';
-            document.getElementById('startBalance').value = '';
-            document.getElementById('startNote').value = '';
-
-            saveData();
-            renderPeople();
-        }
-
-        function renderPeople() {
-            const container = document.getElementById('peopleList');
-            
+        function updateTotal() {
+            const total = people.reduce((sum, person) => sum + person.balance, 0);
             const totalSection = document.getElementById('totalSection');
             const totalAmount = document.getElementById('totalAmount');
-            const total = people.reduce((sum, person) => sum + person.balance, 0);
             
             if (people.length > 0) {
                 totalSection.classList.add('visible');
@@ -682,6 +521,51 @@
             } else {
                 totalSection.classList.remove('visible');
             }
+        }
+
+        function addPerson() {
+            const name = document.getElementById('personName').value.trim();
+            const phone = document.getElementById('personPhone').value.trim();
+            const balance = parseFloat(document.getElementById('startBalance').value) || 0;
+            const note = document.getElementById('startNote').value.trim();
+
+            if (!name) {
+                alert('⚠️ Indtast venligst et navn');
+                return;
+            }
+
+            const person = {
+                name: name,
+                phone: phone,
+                balance: balance,
+                history: []
+            };
+
+            if (balance !== 0) {
+                person.history.push({
+                    date: new Date().toISOString(),
+                    amount: balance,
+                    type: 'initial',
+                    note: note || 'Start beløb'
+                });
+            }
+
+            people.push(person);
+            saveData();
+            renderPeople();
+            updateTotal();
+
+            document.getElementById('personName').value = '';
+            document.getElementById('personPhone').value = '';
+            document.getElementById('startBalance').value = '';
+            document.getElementById('startNote').value = '';
+        }
+
+        function renderPeople() {
+            const container = document.getElementById('peopleContainer');
+            const totalSection = document.getElementById('totalSection');
+            
+            updateTotal();
 
             if (people.length === 0) {
                 container.innerHTML = '<p style="text-align: center; color: #999; padding: 40px;">Ingen personer tilføjet endnu</p>';
@@ -694,27 +578,261 @@
                 const balanceFormatted = currencyFormatter.format(balanceAbs).replace('kr.', 'kr');
                 
                 const balanceText = isPositive ? 
-                    `Skylder dig:  $ {balanceFormatted}` : 
-                    `Du skylder:  $ {balanceFormatted}`;
+                    `Skylder dig: ${balanceFormatted}` : 
+                    `Du skylder: ${balanceFormatted}`;
                     
                 const balanceType = isPositive ? 'positive' : 'negative';
                 const clearButtonText = isPositive ? '✓ Saldo Nulstillet (Betalt til dig)' : '✓ Saldo Nulstillet (Udbetalt til person)';
                 const clearButtonClass = isPositive ? 'btn-paid' : 'btn-cleared';
 
                 return `
-                    <div class="person-card" data-balance-type=" $ {balanceType}">
-                        <div class="person-header" onclick="togglePerson( $ {index})">
+                    <div class="person-card" data-balance-type="${balanceType}">
+                        <div class="person-header" onclick="togglePerson(${index})">
                             <div class="person-info">
-                                <h3>👤  $ {person.name}</h3>
-                                <div class="person-balance">💰  $ {balanceText}</div>
+                                <h3>👤 ${person.name}</h3>
+                                <div class="person-balance">💰 ${balanceText}</div>
                             </div>
-                            <span class="arrow  $ {openAccordionIndex === index ? 'rotated' : ''}">▼</span>
+                            <span class="arrow ${openAccordionIndex === index ? 'rotated' : ''}">▼</span>
                         </div>
-                        <div class="person-content  $ {openAccordionIndex === index ? 'active' : ''}" id="content- $ {index}">
+                        <div class="person-content ${openAccordionIndex === index ? 'active' : ''}" id="content-${index}">
                             <div class="person-inner">
                                 <div class="action-buttons">
-                                    <button class="btn btn-sms" onclick="sendSMS( $ {index})">📱 SMS</button>
-                                    <button class="btn btn-transaction" onclick="openTransactionModal( $ {index})">🔄 Ny Transaktion</button>
-                                    <button class="btn btn-edit" onclick="openEditModal( $ {index})">✏️ Rediger</button>
-                                    <button class="btn  $ {clearButtonClass}" onclick="clearBalance( $ {index})"> $ {clearButtonText}</button>
-                                    <button class="btn btn-delete" onclick="deletePerson(${index}
+                                    <button class="btn btn-sms" onclick="sendSMS(${index})">📱 SMS</button>
+                                    <button class="btn btn-transaction" onclick="openTransactionModal(${index})">🔄 Ny Transaktion</button>
+                                    <button class="btn btn-edit" onclick="openEditModal(${index})">✏️ Rediger</button>
+                                    <button class="btn ${clearButtonClass}" onclick="clearBalance(${index})">${clearButtonText}</button>
+                                    <button class="btn btn-delete" onclick="deletePerson(${index})">🗑️ Slet Person</button>
+                                </div>
+
+                                ${person.history.length > 0 ? `
+                                    <div class="history">
+                                        <h4>📋 Historik</h4>
+                                        ${person.history.slice().reverse().map(entry => {
+                                            const date = new Date(entry.date);
+                                            const dateStr = date.toLocaleDateString('da-DK');
+                                            const amountFormatted = currencyFormatter.format(Math.abs(entry.amount));
+                                            
+                                            let typeText = '';
+                                            if (entry.type === 'initial') typeText = 'Start beløb';
+                                            else if (entry.type === 'transaction') typeText = entry.amount > 0 ? 'Ny Gæld' : 'Betaling';
+                                            else if (entry.type === 'cleared') typeText = 'Saldo Nulstillet';
+                                            
+                                            return `
+                                                <div class="history-item">
+                                                    <div class="history-date">${dateStr} - ${typeText}</div>
+                                                    <div class="history-amount">${amountFormatted}</div>
+                                                    ${entry.note ? `<div class="history-note">📝 ${entry.note}</div>` : ''}
+                                                </div>
+                                            `;
+                                        }).join('')}
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function togglePerson(index) {
+            if (openAccordionIndex === index) {
+                openAccordionIndex = null;
+            } else {
+                openAccordionIndex = index;
+            }
+            renderPeople();
+        }
+
+        function openTransactionModal(index) {
+            currentPersonIndex = index;
+            document.getElementById('transactionModal').style.display = 'block';
+            document.getElementById('transactionAmount').value = '';
+            document.getElementById('transactionNote').value = '';
+            document.getElementById('transactionAmount').focus();
+        }
+
+        function closeTransactionModal() {
+            document.getElementById('transactionModal').style.display = 'none';
+            currentPersonIndex = null;
+        }
+
+        function handleTransaction() {
+            if (currentPersonIndex === null) return;
+
+            const amount = parseFloat(document.getElementById('transactionAmount').value);
+            const note = document.getElementById('transactionNote').value.trim();
+            
+            if (isNaN(amount) || amount === 0) {
+                alert('⚠️ Indtast venligst et gyldigt beløb');
+                return;
+            }
+
+            people[currentPersonIndex].balance += amount;
+            people[currentPersonIndex].history.push({
+                date: new Date().toISOString(),
+                amount: amount,
+                type: 'transaction',
+                note: note
+            });
+
+            saveData();
+            renderPeople();
+            updateTotal();
+            closeTransactionModal();
+        }
+
+        function openEditModal(index) {
+            currentEditIndex = index;
+            const person = people[index];
+            
+            document.getElementById('editName').value = person.name;
+            document.getElementById('editPhone').value = person.phone;
+            document.getElementById('editBalance').value = person.balance;
+            
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+            currentEditIndex = null;
+        }
+
+        function saveEdit() {
+            if (currentEditIndex === null) return;
+
+            const name = document.getElementById('editName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            const newBalance = parseFloat(document.getElementById('editBalance').value);
+
+            if (!name) {
+                alert('⚠️ Indtast venligst et navn');
+                return;
+            }
+
+            if (isNaN(newBalance)) {
+                alert('⚠️ Indtast venligst en gyldig saldo');
+                return;
+            }
+
+            const person = people[currentEditIndex];
+            const oldBalance = person.balance;
+            
+            person.name = name;
+            person.phone = phone;
+            person.balance = newBalance;
+
+            if (oldBalance !== newBalance) {
+                person.history.push({
+                    date: new Date().toISOString(),
+                    amount: newBalance - oldBalance,
+                    type: 'transaction',
+                    note: 'Manuel rettelse af saldo'
+                });
+            }
+
+            saveData();
+            renderPeople();
+            updateTotal();
+            closeEditModal();
+        }
+
+        function clearBalance(index) {
+            const person = people[index];
+            const isPositive = person.balance >= 0;
+            const confirmText = isPositive ? 
+                `Er du sikker på at ${person.name} har betalt ${currencyFormatter.format(person.balance)} til dig?` :
+                `Er du sikker på at du har betalt ${currencyFormatter.format(Math.abs(person.balance))} til ${person.name}?`;
+            
+            if (confirm(confirmText)) {
+                person.history.push({
+                    date: new Date().toISOString(),
+                    amount: -person.balance,
+                    type: 'cleared',
+                    note: isPositive ? 'Betalt til dig' : 'Udbetalt til person'
+                });
+                person.balance = 0;
+                saveData();
+                renderPeople();
+                updateTotal();
+            }
+        }
+
+        function deletePerson(index) {
+            if (confirm(`Er du sikker på at du vil slette ${people[index].name}?`)) {
+                people.splice(index, 1);
+                if (openAccordionIndex === index) {
+                    openAccordionIndex = null;
+                }
+                saveData();
+                renderPeople();
+                updateTotal();
+            }
+        }
+
+        function sendSMS(index) {
+            const person = people[index];
+            const senderPhone = prompt('Indtast dit telefonnummer til MobilePay:', localStorage.getItem('senderPhone') || '');
+            
+            if (senderPhone) {
+                localStorage.setItem('senderPhone', senderPhone);
+            }
+            
+            const revolutLink = prompt('Indtast dit Revolut link:', localStorage.getItem('revolutLink') || 'https://revolut.me/iamjc');
+            
+            if (revolutLink) {
+                localStorage.setItem('revolutLink', revolutLink);
+            }
+            
+            let message;
+            if (person.balance > 0) {
+                message = `Hej ${person.name}! Du skylder mig ${currencyFormatter.format(person.balance)}. Kan du betale via MobilePay (${senderPhone}) eller på Revolut ${revolutLink}? Mvh.`;
+            } else if (person.balance < 0) {
+                const amount = Math.abs(person.balance);
+                message = `Hej ${person.name}! Jeg skylder dig ${currencyFormatter.format(amount)}. Jeg overfører beløbet til dig snarest. Mit Revolut link er ${revolutLink}. Mvh.`;
+            } else {
+                message = `Hej ${person.name}! Vi skylder ikke hinanden penge for øjeblikket. Mvh.`;
+            }
+            
+            window.location.href = `sms:${person.phone}?body=${encodeURIComponent(message)}`;
+        }
+
+        window.onclick = function(event) {
+            const transactionModal = document.getElementById('transactionModal');
+            const editModal = document.getElementById('editModal');
+            
+            if (event.target === transactionModal) {
+                closeTransactionModal();
+            }
+            if (event.target === editModal) {
+                closeEditModal();
+            }
+        }
+
+        document.getElementById('personName').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('personPhone').focus();
+            }
+        });
+
+        document.getElementById('personPhone').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('startBalance').focus();
+            }
+        });
+
+        document.getElementById('startBalance').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addPerson();
+            }
+        });
+        
+        document.getElementById('transactionAmount').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                handleTransaction();
+            }
+        });
+
+        loadData();
+    </script>
+</body>
+</html>
