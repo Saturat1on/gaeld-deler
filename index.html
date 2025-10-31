@@ -785,7 +785,7 @@
             
             let message;
             if (person.balance > 0) {
-                message = `Hej ${person.name}! Du skylder mig ${currencyFormatter.format(person.balance)}. Kan du betale via MobilePay (${senderPhone}) eller på Revolut ${revolutLink}? Mvh.`;
+                message = `Hej ${person.name}! Du skylder mig ${currencyFormatter.format(person.balance)}. Du kan betale via MobilePay (${senderPhone}) eller på Revolut ${revolutLink}? Mvh.`;
             } else if (person.balance < 0) {
                 const amount = Math.abs(person.balance);
                 message = `Hej ${person.name}! Jeg skylder dig ${currencyFormatter.format(amount)}. Jeg overfører beløbet til dig snarest. Mit Revolut link er ${revolutLink}. Mvh.`;
